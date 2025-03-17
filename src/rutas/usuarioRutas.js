@@ -5,7 +5,7 @@ const {
     obtenerUsuarioPorId,
     actualizarUsuario,
     eliminarUsuario
-} = require("../controladores/usuarioController");
+} = require("../controladores/usuarioControlador");
 
 const router = express.Router();
 
