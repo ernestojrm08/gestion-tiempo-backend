@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Tiempo</title>
+    <link rel="stylesheet" href="/publico/style.css">
+</head>
+<body>
+    <h1>Reporte de Tiempo</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Actividad</th>
+            <th>Tiempo Utilizado</th>
+        </tr>
+        <% reporte.forEach(entry => { %>
+            <tr>
+                <td><%= entry.id %></td>
+                <td><%= entry.usuario %></td>
+                <td><%= entry.actividad %></td>
+                <td><%= entry.tiempo %> horas</td>
+            </tr>
+        <% }); %>
+    </table>
+    <a href="/">Volver al Dashboard</a>
+</body>
+</html>

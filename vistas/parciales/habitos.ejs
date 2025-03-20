@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<%- include("parciales/encabezado") %>
+<body>
+    <%- include("parciales/barra_navegacion") %>
+    <div class="contenedor">
+        <h2>Gestión de Hábitos</h2>
+        <form id="form-habito">
+            <input type="text" id="nombre-habito" placeholder="Nombre del Hábito" required>
+            <button type="submit">Agregar Hábito</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="habitos-body"></tbody>
+        </table>
+    </div>
+    <script src="/js/api.js"></script>
+    <script src="/js/eventos.js"></script>
+    <%- include("parciales/pie_pagina") %>
+</body>
+</html>

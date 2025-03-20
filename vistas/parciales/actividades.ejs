@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Actividades</title>
+    <link rel="stylesheet" href="/publico/style.css">
+</head>
+<body>
+    <h1>Gestión de Actividades</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+        <% actividades.forEach(actividad => { %>
+            <tr>
+                <td><%= actividad.id %></td>
+                <td><%= actividad.nombre %></td>
+                <td><%= actividad.descripcion %></td>
+                <td>
+                    <a href="/actividades/editar/<%= actividad.id %>">Editar</a>
+                    <a href="/actividades/eliminar/<%= actividad.id %>" onclick="return confirm('¿Seguro?');">Eliminar</a>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+    <a href="/actividades/agregar">Agregar Actividad</a>
+    <a href="/">Volver al Dashboard</a>
+</body>
+</html>
