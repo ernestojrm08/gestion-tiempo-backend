@@ -116,4 +116,21 @@ node src/app.js
    - Endpoint: `GET /api/actividades/sin-finalizar`
    - Descripción: Obtiene las actividades que no tienen fecha de finalización.
 
+Cómo usar la interfaz web:
+1. Abrir la página principal http://localhost:3000
+2. Secciones disponibles:
+   -  Dashboard: Muestra estadísticas generales.
+   - Usuarios: CRUD de usuarios.
+   - Hábitos y ActividadeCRUD de hábitos.
+   -Proyectos: CRUD de proyectos.
+   - Reporte de Tiempo Visualización de tiempos registrados.
+
+ Tecnologías usadas
+- Node.js + Express.js
+- EJS (para las vistas)
+- Fetch API (para consumir la API)
+- CSS (para estilos) Cómo ejecutar el proyecto
+1. Instalar dependencias:  
+   ```sh
+   npm install
 
