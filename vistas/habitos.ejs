@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Hábitos</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Gestión de Hábitos</h1>
+    <form id="form-habito">
+        <input type="text" id="nombre" placeholder="Nombre del Hábito" required>
+        <button type="submit">Agregar Hábito</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="habitos-body">
+            <% habitos.forEach(habito => { %>
+                <tr>
+                    <td><%= habito._id %></td>
+                    <td><%= habito.nombre %></td>
+                    <td><button onclick="eliminarHabito('<%= habito._id %>')">Eliminar</button></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/eventos.js"></script>
+</body>
+</html>
