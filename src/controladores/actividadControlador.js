@@ -187,6 +187,15 @@ const eliminarActividad = async (req, res) => {
     }
 };
 
+const obtenerActividadesPublicas = async (req, res) => {
+    try {
+        const actividades = await Actividad.find({ publica: true }); // Solo actividades públicas
+        res.json(actividades);
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al obtener actividades públicas", error });
+    }
+};
+
 module.exports = {
     crearActividad,
     obtenerActividades,
@@ -201,4 +210,5 @@ module.exports = {
     buscarActividadesPorNombre,
     calcularTiempoPorCategoriaOProyecto,
     obtenerActividadesAbiertas,
+    obtenerActividadesPublicas
 };
