@@ -15,6 +15,7 @@ const {
     calcularTiempoPorCategoriaOProyecto,
     obtenerActividadesAbiertas,
 } = require("../controladores/actividadControlador");
+const { verificarToken, verificarRol } = require("../middleware/authMiddleware");
 
 
 const router = express.Router();
@@ -32,20 +33,19 @@ router.get("/vista", async (req, res) => {
     }
 });
 
-// Definir las rutas
-router.post("/", crearActividad);         // Crear actividad
-router.get("/", obtenerActividades);      // Obtener todas las actividades
+// Solo el admin puede crear, actualizar y eliminar actividades
+router.post("/", verificarToken, verificarRol(["admin"]), crearActividad); // Crear actividad
+router.get("/", obtenerActividades); // Obtener todas las actividades
 router.get("/:id", obtenerActividadPorId); // Obtener actividad por ID
-router.put("/:id", actualizarActividad);  // Actualizar actividad
-router.delete("/:id", eliminarActividad); // Eliminar actividad
-router.get("/usuarios/:usuarioId/categorias/:categoria", obtenerActividadesPorCategoria); //Obtener Actividades por categoría
-router.get("/usuarios/:usuarioId/ultimas-actividades", obtenerUltimasActividades); //Obtener Ultimas Actividades
-router.get("/proyectos/:proyecto/actividades", obtenerActividadesPorProyecto); //Obtener Actividades por Proyecto
-router.get("/habitos/:habitoId/actividades/:fechaInicio/:fechaFin", obtenerActividadesPorHabitoYRangoFechas); //Obtener Actividades por Habito y Rango de Fechas
-router.get("/sin-actividades", obtenerHabitosSinActividades); //Obtener Habitos sin Actividades
-router.get("/buscar/:nombre", buscarActividadesPorNombre); //Actividades por Nombre
-router.get("/tiempo/:agruparPor", calcularTiempoPorCategoriaOProyecto); //Tiempo por categoria o proyecto
-router.get("/sin-finalizar", obtenerActividadesAbiertas); //Actividades Abiertas
-
+router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarActividad); // Actualizar actividad
+router.delete("/:id", verificarToken, verificarRol(["admin"]), eliminarActividad); // Eliminar actividad
+router.get("/usuarios/:usuarioId/categorias/:categoria", verificarToken, obtenerActividadesPorCategoria); // Obtener actividades por categoría
+router.get("/usuarios/:usuarioId/ultimas-actividades", verificarToken, obtenerUltimasActividades); // Obtener Ultimas Actividades
+router.get("/proyectos/:proyecto/actividades", verificarToken, obtenerActividadesPorProyecto); // Obtener actividades por Proyecto
+router.get("/habitos/:habitoId/actividades/:fechaInicio/:fechaFin", verificarToken, obtenerActividadesPorHabitoYRangoFechas); // Obtener Actividades por Hábito y Rango de Fechas
+router.get("/sin-actividades", verificarToken, obtenerHabitosSinActividades); // Obtener Hábitos sin Actividades
+router.get("/buscar/:nombre", verificarToken, buscarActividadesPorNombre); // Actividades por Nombre
+router.get("/tiempo/:agruparPor", verificarToken, calcularTiempoPorCategoriaOProyecto); // Tiempo por categoría o proyecto
+router.get("/sin-finalizar", verificarToken, obtenerActividadesAbiertas); // Actividades Abiertas
 
 module.exports = router;

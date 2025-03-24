@@ -1,5 +1,6 @@
 const express = require("express");
 const Usuario = require("../modelos/Usuario")
+const { verificarToken, verificarRol } = require("../middleware/authMiddleware");
 const {
     crearUsuario,
     obtenerUsuarios,
@@ -23,13 +24,14 @@ router.get("/vista", async (req, res) => {
     }
 })
 
-// Definir las rutas
-router.post("/", crearUsuario);        // Crear usuario
-router.get("/", obtenerUsuarios);      // Obtener todos los usuarios
-router.get("/:id", obtenerUsuarioPorId); // Obtener usuario por ID
-router.put("/:id", actualizarUsuario); // Actualizar usuario
-router.delete("/:id", eliminarUsuario); // Eliminar usuario
+// Solo el admin puede crear, actualizar y eliminar usuarios
+router.post("/", verificarToken, verificarRol(["admin"]), crearUsuario);
+router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarUsuario);
+router.delete("/:id", verificarToken, verificarRol(["admin"]), eliminarUsuario);
+// Ruta para asignar roles (solo para admin)
+router.post("/asignar-rol", verificarToken, verificarRol(["admin"]));
 
-
+router.get("/", verificarToken, obtenerUsuarios);      // Obtener todos los usuarios
+router.get("/:id", verificarToken, obtenerUsuarioPorId); // Obtener usuario por ID
 
 module.exports = router;

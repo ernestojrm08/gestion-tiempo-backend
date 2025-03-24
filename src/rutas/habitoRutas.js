@@ -1,5 +1,6 @@
 const express = require("express");
 const Habito = require("../modelos/Habito");
+const { verificarToken } = require("../middleware/authMiddleware");
 const {
     crearHabito,
     obtenerHabitos,
@@ -24,12 +25,10 @@ router.get("/vista", async (req, res) => {
 });
 
 // Definir las rutas
-router.post("/", crearHabito);         // Crear hábito
-router.get("/", obtenerHabitos);       // Obtener todos los hábitos
-router.get("/:id", obtenerHabitoPorId); // Obtener hábito por ID
-router.put("/:id", actualizarHabito);  // Actualizar hábito
-router.delete("/:id", eliminarHabito); // Eliminar hábito
-
-
+router.post("/", verificarToken, crearHabito);         // Crear hábito
+router.get("/", verificarToken, obtenerHabitos);       // Obtener todos los hábitos
+router.get("/:id", verificarToken, obtenerHabitoPorId); // Obtener hábito por ID
+router.put("/:id", verificarToken, actualizarHabito);  // Actualizar hábito
+router.delete("/:id", verificarToken, eliminarHabito); // Eliminar hábito
 
 module.exports = router;
