@@ -18,7 +18,7 @@ Ejecuta los siguientes comandos en la terminal:
 
 ```sh
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/tu-repositorio.git
+git clone https://github.com/ernestojrm08/gestion-tiempo-backend.git
 
 # Acceder al proyecto
 cd gestion-tiempo
@@ -32,7 +32,7 @@ npm install
 El archivo .env NO está en el repositorio por seguridad. Debes crearlo manualmente en la raíz del proyecto.
 Crea un archivo .env y pega este contenido:
 PORT=5000
-MONGO_URI=mongodb+srv://admin:admin1234@tu-cluster.mongodb.net/tu-base?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://admin:admin1234@appgestion-tiempo.hfdni.mongodb.net/?retryWrites=true&w=majority&appName=appGestion-tiempo
 JWT_SECRET=gestion-tiempo
 JWT_EXPIRES_IN=1h
 
