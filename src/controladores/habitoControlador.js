@@ -4,7 +4,7 @@ const Habito = require("../modelos/Habito");
 const crearHabito = async (req, res) => {
     try {
         const { usuario, nombre, descripcion } = req.body;
-        const nuevoHabito = new Habito({ usuario, nombre, descripcion });
+        const nuevoHabito = new Habito({ usuario : req.usuario.id, nombre, descripcion });
         await nuevoHabito.save();
         res.status(201).json({ mensaje: "Hábito creado correctamente", habito: nuevoHabito });
     } catch (error) {

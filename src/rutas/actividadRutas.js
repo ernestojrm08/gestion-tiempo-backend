@@ -21,24 +21,14 @@ const { verificarToken, verificarRol } = require("../middleware/authMiddleware")
 const router = express.Router();
 
 //renderizar vistas 
-router.get("/vista", async (req, res) => {
-    try {
-        console.log("Intentando obtener actividades...");
-        const actividades = await Actividad.find();
-        console.log("Actividades obtenidas:", actividades);
-        res.render("actividades", { actividades });
-    } catch (error) {
-        console.error("ERROR DETECTADO:", error);
-        res.status(500).send("Error al cargar la vista de actividades");
-    }
-});
 
 // Solo el admin puede crear, actualizar y eliminar actividades
 router.post("/", verificarToken, verificarRol(["admin"]), crearActividad); // Crear actividad
-router.get("/", obtenerActividades); // Obtener todas las actividades
-router.get("/:id", obtenerActividadPorId); // Obtener actividad por ID
 router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarActividad); // Actualizar actividad
 router.delete("/:id", verificarToken, verificarRol(["admin"]), eliminarActividad); // Eliminar actividad
+
+router.get("/", obtenerActividades); // Obtener todas las actividades
+router.get("/:id", obtenerActividadPorId); // Obtener actividad por ID
 router.get("/usuarios/:usuarioId/categorias/:categoria", verificarToken, obtenerActividadesPorCategoria); // Obtener actividades por categoría
 router.get("/usuarios/:usuarioId/ultimas-actividades", verificarToken, obtenerUltimasActividades); // Obtener Ultimas Actividades
 router.get("/proyectos/:proyecto/actividades", verificarToken, obtenerActividadesPorProyecto); // Obtener actividades por Proyecto

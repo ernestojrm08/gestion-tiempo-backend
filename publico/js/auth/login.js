@@ -1,4 +1,4 @@
-
+import { login } from "./../api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("eventos.js carga correctamente");

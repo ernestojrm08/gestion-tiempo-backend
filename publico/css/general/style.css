@@ -1,98 +1,216 @@
 body {
-    font-family: sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #e0f2f7, #f0f8ff);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
+  font-family: sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #e0f2f7, #f0f8ff);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 header {
-    display: flex;
-    align-items: center; /* Alinea verticalmente los elementos */
-    padding: 10px; /* Añade un poco de espacio alrededor del header */
-    background-color: #ffffff; /* Un color de fondo suave para el header */
-  }
-  
-  header img {
-    width: 60px; /* Ajusta el ancho del icono */
-    height: auto; /* Mantiene la proporción original */
-    margin-right: 20px; /* Espacio entre el icono y el título */
-  }
-  
-  header h1 {
-    margin: 0; /* Elimina el margen predeterminado del h1 */
-    font-size: 1.5em; /* Ajusta el tamaño de la fuente del título */
-  }
-  
-  header nav {
-    margin-left: auto; /* Empuja la navegación hacia la derecha */
-  }
-  
-  header nav a {
-    margin-left: 15px; /* Espacio entre los enlaces de navegación */
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-    color: #333; /* Color del texto de los enlaces */
-  }
-  
-  header nav a:hover {
-    text-decoration: underline; /* Subraya los enlaces al pasar el ratón */
-  }
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+}
 
-main {
-    padding: 2rem;
+header img {
+  width: 60px;
+  height: auto;
+  margin-right: 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+header nav {
+  margin-left: auto;
+}
+
+header nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+aside {
+  padding: 1rem;
+  transition: all 0.5s;
 }
 
 main section {
-    background-color: white;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 850px;
-    width: 100%;
-    margin: auto;
+  border-radius: 10px;
+  margin: auto;
 }
 
 h1, h2, h3 {
-    color: #333;
-    margin-bottom: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 ul, ol {
-    margin-left: 1.5rem;
+  margin-left: 1.5rem;
 }
-
-
-ul, ol {
-    margin-left: 1.5rem;
-}
-
-
 
 button {
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-/*estilos al final de la pagina  */
+
 footer {
-    background-color: white;
-    color: #333;
-    text-align: center;
-    padding: 1rem 0;
-    bottom: 0;
-    width: 100%;
+  background-color: white;
+  color: #333;
+  text-align: center;
+  padding: 1rem 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.contariner__dashboard {
+  display: flex;
+  gap: 6rem;
+}
+
+.container__void {
+  width: 600px;
+  height: 400px;
+  background-color: lineal-gradient(135deg, #e0f2f7, #f0f8ff);
+  border-radius: 10px;
+  background-image: url(https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Estilos para el formulario de hábitos */
+#form-habito {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+#form-habito input[type="text"],
+#form-habito textarea {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  flex: 1 1 200px;
+}
+
+#form-habito textarea {
+    resize: none; 
+    display: grid;
+    place-items: center;
+    height: 2.5rem;
+}
+
+#form-habito button {
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+/* Estilos para el formulario de usuarios */
+#form-usuario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+#form-usuario input[type="text"],
+#form-usuario input[type="email"],
+#form-usuario input[type="password"] {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  flex: 1 1 200px;
+}
+
+#form-usuario button {
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+#form-actividad {
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  /* width: 300px; */
+  margin-bottom: 20px;
+  gap: 0rem 2rem;
+}
+
+#form-actividad input,
+#form-actividad textarea,
+#form-actividad button {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#form-actividad textarea {
+  resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+#form-actividad button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+#form-actividad button:hover {
+  background-color: #3e8e41;
+}
+
+#form-actividad input[type="checkbox"] {
+  align-self: flex-start; /* Alinea el checkbox al inicio del flex container */
+  margin-right: 5px;
+}
+
+#form-actividad label {
+  display: flex;
+  align-items: center; /* Alinea el texto del label con el checkbox */
+}
+
+.menu ul{
+  padding: 0;
+  list-style: none;
+}
+.menu button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: 1s all;
+  width: 100%;
+  color: black;
+  margin: 0;
+  padding: 0;
+  padding: 1rem 3rem;
+  border-radius: 0;
+}
+.menu button:hover{
+  background-color: black;
+  color:#e0f2f7;
 }

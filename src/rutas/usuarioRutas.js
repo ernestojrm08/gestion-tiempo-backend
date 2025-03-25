@@ -12,18 +12,6 @@ const {
 const router = express.Router();
 
 //renderizar vistas de usuario
-router.get("/vista", async (req, res) => {
-    try {
-        console.log("Obteniendo usuarios...");
-        const usuarios = await Usuario.find();
-        console.log("Usuarios obtenidos:", usuarios);
-        res.render("usuarios", {usuarios});
-    } catch (error) {
-        console.error("Error DETECTADO", error)
-        res.status(500).send("Error al cargar lista de usuarios")
-    }
-})
-
 router.get("/dashboard",verificarToken, async (req, res) => {
     try {
         res.render("dashboard",{usuario:req.usuario});
@@ -32,6 +20,7 @@ router.get("/dashboard",verificarToken, async (req, res) => {
         res.status(500).send("Error al cargar lista de usuarios")
     }
 })
+
 
 // Solo el admin puede crear, actualizar y eliminar usuarios
 router.post("/", verificarToken, verificarRol(["admin"]), crearUsuario);

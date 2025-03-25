@@ -26,13 +26,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-async function eliminarUsuario(id) {
-    if (confirm("¿Seguro que quieres eliminar este usuario?")) {
-        try {
-            await fetch(`http://localhost:5000/api/usuarios/${id}`, { method: "DELETE" });
-            location.reload();
-        } catch (error) {
-            console.error("Error al eliminar usuario:", error);
-        }
-    }
-}

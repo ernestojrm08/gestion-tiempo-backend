@@ -7,19 +7,38 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <nav>
-        <ul>
-            <li><a href="api/usuarios/dashboard">Inicio</a></li>
-            <% if (usuario.rol === 'admin') { %>
-                <li><a href="vista">Usuarios</a></li>
-            <% } %>
-            <li><a href="api/actividades">Actividades</a></li>
-            <li><a href="api/habitos">Hábitos</a></li>
-        </ul>
-    </nav>
-    <div id="contenido-principal">
-        <p>Bienvenido al dashboard, <%= usuario.nombre %>!</p>
-    </div>
+    <header>
+        <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
+        <h1>Gestión de Hábitos</h1>
+        <nav>
+            <button id="salir">Salir</button>
+        </nav>
+      </header>
+      <main>
+        <section>
+            <div class="contariner__dashboard">
+                <aside class="menu">
+                    <ul>
+                        <% if (usuario.rol === 'admin') { %>
+                            <li> <button id="crud_user">Usuarios</button></li>
+                        <% } %>
+                        <li><button id="crud_actividades">Actividades</button></li>
+                        <li><button id="crud_habitos">Hábitos</button></li>
+                    </ul>
+                </aside>
+                <div id="contenido-principal">
+                    <div class="container__void"></div>
+                </div>
+            </div>
+        </section>
+      </main>
+
+
+    <footer>
+        <p>&copy; 2024 Gestión de Hábitos</p>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/dashboard/dashboard.js"></script>
 </body>
 </html>
