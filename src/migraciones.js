@@ -11,8 +11,8 @@ const inicializarBD = async () => {
         console.log(" Iniciando migraciones...");
 
         //  Verificar si los usuarios ya existen para no duplicarlos
-        const adminExiste = await Usuario.findOne({ correo: "admin@mail.com" });
-        const usuarioExiste = await Usuario.findOne({ correo: "usuario@mail.com" });
+        const adminExiste = await Usuario.findOne({ correo: "admin@gmail.com" });
+        const usuarioExiste = await Usuario.findOne({ correo: "usuario@gmail.com" });
 
         if (!adminExiste) {
             const salt = await bcrypt.genSalt(10);
@@ -20,7 +20,7 @@ const inicializarBD = async () => {
 
             await Usuario.create({
                 nombre: "Admin",
-                correo: "admin@mail.com",
+                correo: "admin@gmail.com",
                 contraseña: passwordAdmin,
                 rol: "admin"
             });
@@ -36,7 +36,7 @@ const inicializarBD = async () => {
 
             await Usuario.create({
                 nombre: "Usuario",
-                correo: "usuario@mail.com",
+                correo: "usuario@gmail.com",
                 contraseña: passwordUser,
                 rol: "usuario"
             });
