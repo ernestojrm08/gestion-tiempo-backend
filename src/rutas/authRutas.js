@@ -8,3 +8,4 @@ router.post("/registro", validarRegistro, registrarUsuario);
 router.post("/login", iniciarSesion);
 
 module.exports = router;
+

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
+        <h1>Gestión de Hábitos</h1>
+        <nav>
+          <a href="/home">Inicio</a>
+          <a href="/home/habitos">Hábitos</a>
+          <a href="/home/importar-habitos">Importar Hábitos</a>
+          <a href="/">Iniciar sesión</a>
+        </nav>
+      </header>
+
+    <main>
+        <% if (pagina === 'inicio') { %>
+            <section id="descripcion">
+                <h1>Gestión de Hábitos</h1>
+                <p>La gestión de hábitos es el proceso de identificar, crear y mantener hábitos positivos, mientras se eliminan o modifican los negativos. Se trata de una estrategia para mejorar tu vida diaria, aumentar la productividad y alcanzar tus metas a largo plazo.</p>
+            
+                <h2>Importancia</h2>
+                <ul>
+                    <li>Los hábitos forman gran parte de nuestras vidas. Gestionar los hábitos de forma efectiva puede mejorar significativamente la calidad de vida.</li>
+                    <li>Los hábitos positivos pueden aumentar la productividad, mejorar la salud y el bienestar, y contribuir al éxito personal y profesional.</li>
+                    <li>Los hábitos negativos pueden obstaculizar el progreso, causar estrés y afectar negativamente la salud.</li>
+                </ul>
+            
+                <h2>Proceso</h2>
+                <ol>
+                    <li><strong>Identificación:</strong> El primer paso es identificar los hábitos actuales, tanto positivos como negativos.</li>
+                    <li><strong>Establecimiento de metas:</strong> Define qué hábitos quieres desarrollar o cambiar y por qué.</li>
+                    <li><strong>Planificación:</strong> Crea un plan de acción con pasos específicos y alcanzables.</li>
+                    <li><strong>Seguimiento:</strong> Lleva un registro de tu progreso para mantenerte motivado y realizar ajustes si es necesario.</li>
+                    <li><strong>Consistencia:</strong> La clave para formar nuevos hábitos es la repetición constante.</li>
+                </ol>
+            
+                <h2>Técnicas</h2>
+                <ul>
+                    <li><strong>Pequeños pasos:</strong> Comienza con cambios pequeños y graduales para evitar sentirte abrumado.</li>
+                    <li><strong>Asociación:</strong> Vincula nuevos hábitos a rutinas existentes.</li>
+                    <li><strong>Recompensas:</strong> Celebra los logros para reforzar los hábitos positivos.</li>
+                    <li><strong>Responsabilidad:</strong> Busca apoyo de amigos, familiares o grupos de apoyo.</li>
+                </ul>
+            
+                <p>En resumen, la gestión de hábitos es una herramienta poderosa para el desarrollo personal y el logro de objetivos. Al comprender y aplicar los principios de la gestión de hábitos, puedes transformar tu vida y crear un futuro más positivo y exitoso.</p>
+                </section>
+        <% } else if (pagina === 'habitos') { %>
+            <section id="lista-habitos">
+                <h1>Lista de Hábitos Saludables</h1>
+
+    <h2>Hábitos Matutinos</h2>
+    <ul>
+        <li>Despertar temprano (6:00 AM).</li>
+        <li>Beber un vaso de agua al despertar.</li>
+        <li>Realizar 10 minutos de estiramientos o yoga.</li>
+        <li>Meditar durante 5 minutos.</li>
+        <li>Desayunar un plato equilibrado.</li>
+        <li>Planificar las tareas del día.</li>
+    </ul>
+
+    <h2>Hábitos de Salud y Bienestar</h2>
+    <ul>
+        <li>Hacer ejercicio durante 30 minutos (correr, nadar, etc.).</li>
+        <li>Comer 5 porciones de frutas y verduras al día.</li>
+        <li>Dormir 7-8 horas cada noche.</li>
+        <li>Limitar el consumo de cafeína.</li>
+        <li>Practicar la gratitud diariamente.</li>
+        <li>Pasar tiempo al aire libre.</li>
+    </ul>
+
+    <h2>Hábitos de Productividad</h2>
+    <ul>
+        <li>Priorizar las tareas más importantes.</li>
+        <li>Trabajar en bloques de tiempo enfocados.</li>
+        <li>Evitar distracciones (redes sociales, etc.).</li>
+        <li>Tomar descansos cortos cada hora.</li>
+        <li>Aprender algo nuevo cada día.</li>
+        <li>Revisar y ajustar metas semanalmente.</li>
+    </ul>
+
+    <h2>Hábitos Nocturnos</h2>
+    <ul>
+        <li>Preparar la ropa para el día siguiente.</li>
+        <li>Leer un libro antes de dormir.</li>
+        <li>Evitar pantallas 1 hora antes de dormir.</li>
+        <li>Escribir un diario sobre el día.</li>
+        <li>Practicar ejercicios de respiración.</li>
+        <li>Acostarse a una hora fija.</li>
+    </ul>
+
+    <h2>Hábitos de Relaciones Sociales</h2>
+    <ul>
+        <li>Llamar a un amigo o familiar.</li>
+        <li>Organizar una salida con amigos.</li>
+        <li>Hacer voluntariado.</li>
+        <li>Expresar gratitud a las personas.</li>
+        <li>Escuchar activamente a los demás.</li>
+        <li>Evitar criticar.</li>
+    </ul>
+            </section>
+        <% } else if (pagina === 'importar-habitos') { %>
+            <section id="importar-habitos">
+                <h1>Importar Hábitos: Guía Paso a Paso</h1>
+
+                <p>Importar hábitos se refiere al proceso de adoptar e integrar nuevos comportamientos en tu vida diaria. Aquí te presento algunos pasos y consejos para hacerlo de manera efectiva:</p>
+            
+                <h2>1. Define tus objetivos</h2>
+                <ul>
+                    <li><strong>Claridad:</strong> ¿Qué hábitos quieres incorporar? Sé específico (ej. "leer 30 minutos al día" en lugar de "leer más").</li>
+                    <li><strong>Priorización:</strong> Elige uno o dos hábitos para empezar. Intentar cambiar demasiadas cosas a la vez puede ser abrumador.</li>
+                    <li><strong>Motivación:</strong> ¿Por qué quieres adoptar estos hábitos? Conectar tus hábitos con tus valores y metas te dará mayor motivación.</li>
+                </ul>
+            
+                <h2>2. Diseña tu plan</h2>
+                <ul>
+                    <li><strong>Pequeños pasos:</strong> Divide el hábito en acciones pequeñas y manejables.</li>
+                    <li><strong>Anclaje:</strong> Asocia el nuevo hábito a una rutina existente (ej. "después de cepillarme los dientes, leeré").</li>
+                    <li><strong>Recordatorios:</strong> Usa alarmas, notas o aplicaciones para recordarte tus hábitos.</li>
+                    <li><strong>Seguimiento:</strong> Lleva un registro de tu progreso (ej. un calendario, una app).</li>
+                </ul>
+            
+                <h2>3. Crea un entorno favorable</h2>
+                <ul>
+                    <li><strong>Elimina obstáculos:</strong> Reduce las distracciones y los elementos que dificulten el nuevo hábito.</li>
+                    <li><strong>Facilita el acceso:</strong> Ten a mano todo lo que necesitas para realizar el hábito.</li>
+                    <li><strong>Apoyo social:</strong> Comparte tus metas con amigos o familiares para que te animen.</li>
+                </ul>
+            
+                <h2>4. Persevera y sé flexible</h2>
+                <ul>
+                    <li><strong>Consistencia:</strong> La clave es la repetición. No te desanimes si fallas algún día.</li>
+                    <li><strong>Ajustes:</strong> Si un hábito no funciona, modifica tu plan.</li>
+                    <li><strong>Paciencia:</strong> Los hábitos tardan en formarse. Sé constante y celebra tus pequeños logros.</li>
+                </ul>
+            
+                <h2>Consejos adicionales</h2>
+                <ul>
+                    <li><strong>Visualización:</strong> Imagina cómo te sentirás al lograr tus hábitos.</li>
+                    <li><strong>Recompensas:</strong> Celebra tus logros para reforzar el comportamiento.</li>
+                    <li><strong>Mindfulness:</strong> Presta atención a tus pensamientos y emociones durante el proceso.</li>
+                </ul>
+            
+                <p><strong>Recuerda:</strong></p>
+                <ul>
+                    <li>La disciplina es importante, pero la flexibilidad también lo es.</li>
+                    <li>No te compares con los demás. Cada persona tiene su propio ritmo.</li>
+                </ul>
+            
+                <p>Espero que estos consejos te sean útiles para importar hábitos saludables a tu vida.</p>
+            
+            </section>
+        <% } %>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gestión de Hábitos</p>
+    </footer>
+</body>
+</html>

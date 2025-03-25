@@ -24,6 +24,15 @@ router.get("/vista", async (req, res) => {
     }
 })
 
+router.get("/dashboard",verificarToken, async (req, res) => {
+    try {
+        res.render("dashboard",{usuario:req.usuario});
+    } catch (error) {
+        console.error("Error DETECTADO", error)
+        res.status(500).send("Error al cargar lista de usuarios")
+    }
+})
+
 // Solo el admin puede crear, actualizar y eliminar usuarios
 router.post("/", verificarToken, verificarRol(["admin"]), crearUsuario);
 router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarUsuario);

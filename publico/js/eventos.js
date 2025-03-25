@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const nombre = document.getElementById("nombre").value;
             const correo = document.getElementById("correo").value;
             const contraseña = document.getElementById("contraseña").value;
-            await agregarUsuario({ nombre, correo });
+            //console.log({ nombre, correo, contraseña });
+            await agregarUsuario({ nombre, correo,contraseña });
         });
     }
 });

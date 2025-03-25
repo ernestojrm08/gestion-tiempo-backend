@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+   
+    <header>
+        <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
+        <h1>Gestión de Hábitos</h1>
+        <nav>
+          <a href="/home">Inicio</a>
+          <a href="/home/habitos">Hábitos</a>
+          <a href="/home/importar-habitos">Importar Hábitos</a>
+          <a href="/">Iniciar sesión</a>
+        </nav>
+      </header>
+    <main>
+        <section>
+    
+            <form id="form-login" class="form__auth">
+                <input type="email" id="correo" placeholder="Correo" required>
+                <input type="password" id="contraseña" placeholder="Contraseña" required>
+                <button type="submit">login</button>
+                <span>
+                    <a href="/register">Registrarse</a>
+                </span>
+            </form>
+             
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Gestión de Hábitos</p>
+    </footer>
+
+
+
+    
+    <script src="/js/api.js"></script>
+    <script src="/js/auth/login.js"></script>
+</body>
+</html>

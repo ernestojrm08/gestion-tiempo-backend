@@ -35,20 +35,22 @@ app.use(express.static(path.join(__dirname, "../publico")));
 app.use(express.static(path.join(__dirname, "../js")));
 
 // ruta para testear
+/*
 app.get("/", (req, res) => {
     res.send("servidor corriendo correctamente")
 });
+*/
 
 //rutas del servidor
 app.use("/api/habitos", habitoRutas);
 app.use("/api/actividades", actividadRutas);
 app.use("/api/usuarios", usuarioRutas);
 app.use("/api/auth", authRutas);
-app.use("/api/public", publicRutas);
+app.use("/", publicRutas);
 
 // configuracion del puerto
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en https://localhost:${PORT}`)
+    console.log(`Servidor corriendo en http://localhost:${PORT}`)
 });
 
