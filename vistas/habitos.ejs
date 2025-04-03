@@ -7,31 +7,278 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Gestión de Hábitos</h1>
-    <form id="form-habito">
-        <input type="text" id="nombre" placeholder="Nombre del Hábito" required>
-        <button type="submit">Agregar Hábito</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="habitos-body">
-            <% habitos.forEach(habito => { %>
-                <tr>
-                    <td><%= habito._id %></td>
-                    <td><%= habito.nombre %></td>
-                    <td><button onclick="eliminarHabito('<%= habito._id %>')">Eliminar</button></td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+    <div>
+        <%- include("./layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+                <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <h1>Gestión de Hábitos</h1>
+                    <form id="form-habito" >
+                        <input type="hidden" id="habito-id" name="_id">
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre del Hábito" required>
+                        <input type="text" id="descripcion" name="descripcion" placeholder="Descripción del Hábito">
+                        <input type="text" id="id_habito" placeholder="ID (buscar)">
+                        <button type="submit" id="button_form">Agregar Hábito</button>
+                        <button type="button" id="buscar_habito">Buscar Hábito</button>
+                        <button type="button" id="cancelar-edicion" style="display:none;">Limpiar Formulario</button>
+                    </form>
+                    <div class="contenerdor_tabla">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="habitos-body">
+                                <% habitos.forEach(habito => { %>
+                                    <tr>
+                                        <td><%= habito._id %></td>
+                                        <td><%= habito.nombre %></td>
+                                        <td><%= habito.descripcion %></td>
+                                        <td>
+                                            <button class="delete_button" data-id="<%= habito._id %>">Eliminar</button>
+                                            <button class="edit_button" data-id="<%= habito._id %>">Editar</button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <main>
+    <%- include("./layout/footer"); %>
+    <script>
+        console.log("eventos.js carga correctamente (hábitos)");
 
-    <script src="/js/api.js"></script>
-    <script src="/js/eventos.js"></script>
+
+        async function obtenerHabitos() {
+            try {
+                const response = await fetch(`/api/habitos`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error al obtener hábitos:", error);
+                return [];
+            }
+        }
+
+        async function obtenerHabito(id="") {
+            try {
+                const response = await fetch(`/api/habitos/${id}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data
+            } catch (error) {
+                console.error("Error al obtener hábitos:", error);
+                return [];
+            }
+        }
+
+        async function obtenerHabitoFiltro(id="") {
+            try {
+                const response = await fetch(`/api/habitos/${id}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                actualizarTablaItems([data]);
+                agregarEventListeners();
+            } catch (error) {
+                console.error("Error al obtener hábitos:", error);
+                return [];
+            }
+        }
+
+        async function agregarHabito(habito) {
+            try {
+                const response = await fetch('/api/habitos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(habito),
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Error al agregar hábito: ${errorData.mensaje || 'Error desconocido'}`);
+                }
+                let resp = await response.json();
+                alert(resp.mensaje);
+                return resp;
+            } catch (error) {
+                console.error("Error al agregar hábito:", error);
+                alert(error.message);
+            }
+        }
+
+        async function actualizarHabito(habito) {
+            try {
+                const response = await fetch(`/api/habitos/${habito._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(habito),
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Error al actualizar hábito: ${errorData.mensaje || 'Error desconocido'}`);
+                }
+                let resp = await response.json()
+                //console.log(resp);
+                alert(resp.mensaje);
+                return resp;
+            } catch (error) {
+                console.error("Error al actualizar hábito:", error);
+                alert(error.message);
+            }
+        }
+
+        async function eliminarHabito(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este hábito?')) {
+                try {
+                    const response = await fetch(`/api/habitos/${id}`, {
+                        method: 'DELETE',
+                    });
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`Error al eliminar hábito: ${errorData.mensaje || 'Error desconocido'}`);
+                    }
+                    actualizarTabla();
+                } catch (error) {
+                    console.error('Error al eliminar el hábito:', error);
+                    alert(error.message);
+                }
+            }
+        }
+
+        function actualizarTablaItems(habitos){
+            const tablaHabitos = document.getElementById("habitos-body");
+            tablaHabitos.innerHTML = "";
+            habitos.reverse();
+            habitos.forEach(habito => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${habito._id}</td>
+                    <td>${habito.nombre}</td>
+                    <td>${habito.descripcion}</td>
+                    <td>
+                        <button class="delete_button" data-id="${habito._id}">Eliminar</button>
+                        <button class="edit_button" data-id="${habito._id}">Editar</button>
+                    </td>
+                `;
+                tablaHabitos.appendChild(fila);
+            });
+        }
+        function actualizarTabla() {
+            obtenerHabitos().then(habitos => {
+                actualizarTablaItems(habitos)
+                agregarEventListeners();
+            });
+        }
+
+        function limpiarFormulario() {
+            document.getElementById("habito-id").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("descripcion").value = "";
+            document.getElementById("button_form").innerText = "Agregar Hábito";
+            document.getElementById("form-habito").action = "/habitos";
+            document.getElementById("cancelar-edicion").style.display = "none";
+            document.getElementById("id_habito").value ="";
+        }
+
+        function editarHabito(id) {
+            obtenerHabito(id)
+            .then(habito => {
+                console.log(habito)
+                if (habito) {
+                    document.getElementById("habito-id").value = habito._id;
+                    document.getElementById("nombre").value = habito.nombre;
+                    document.getElementById("descripcion").value = habito.descripcion;
+                    document.getElementById("button_form").innerText = "Guardar Cambios";
+                    document.getElementById("cancelar-edicion").style.display = "inline-block";
+                }
+                
+            });
+        }
+
+        function agregarEventListeners() {
+            const deleteButtons = document.querySelectorAll(".delete_button");
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const id = this.dataset.id;
+                    eliminarHabito(id);
+                });
+            });
+
+            const editButtons = document.querySelectorAll(".edit_button");
+            editButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const id = this.dataset.id;
+                    editarHabito(id);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            agregarEventListeners();
+
+            document.getElementById('form-habito').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const id = document.getElementById('habito-id').value;
+                const nombre = document.getElementById('nombre').value;
+                const descripcion = document.getElementById('descripcion').value;
+
+                if (id) {
+                    // Editar hábito existente
+                    await actualizarHabito({ _id: id, nombre, descripcion });
+                } else {
+                    // Agregar nuevo hábito
+                    await agregarHabito({ nombre, descripcion });
+                }
+                actualizarTabla();
+                limpiarFormulario();
+            });
+
+            document.getElementById('cancelar-edicion').addEventListener('click', (event) => {
+                event.preventDefault();
+                limpiarFormulario();
+                actualizarTabla();
+            });
+
+            document.getElementById('buscar_habito').addEventListener('click',(event)=>{
+                event.preventDefault()
+                const id = document.getElementById("id_habito").value;
+                if(id){
+                    limpiarFormulario();
+                    obtenerHabitoFiltro(id);
+                    document.getElementById("cancelar-edicion").style.display = "block";
+                }
+                
+            })
+        });
+    </script>
 </body>
 </html>

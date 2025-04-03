@@ -21,6 +21,15 @@ const { verificarToken, verificarRol } = require("../middleware/authMiddleware")
 const router = express.Router();
 
 //renderizar vistas 
+router.get("/vista",verificarToken, async (req, res) => {
+    try {
+        const actividad = await Actividad.find();
+        res.render("actividades", { actividad,usuario:req.usuario });
+    } catch (error) {
+        console.error("ERROR DETECTADO:", error);
+        res.status(500).send("Error al cargar la vista de hábitos");
+    }
+});
 
 // Solo el admin puede crear, actualizar y eliminar actividades
 router.post("/", verificarToken, verificarRol(["admin"]), crearActividad); // Crear actividad

@@ -7,20 +7,11 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
-        <h1>Gestión de Hábitos</h1>
-        <nav>
-          <a href="/home">Inicio</a>
-          <a href="/home/habitos">Hábitos</a>
-          <a href="/home/importar-habitos">Importar Hábitos</a>
-          <a href="/">Iniciar sesión</a>
-        </nav>
-      </header>
+    <%- include("./layout/header"); %>
 
     <main>
         <% if (pagina === 'inicio') { %>
-            <section id="descripcion">
+            <section id="descripcion" class="informacion">
                 <h1>Gestión de Hábitos</h1>
                 <p>La gestión de hábitos es el proceso de identificar, crear y mantener hábitos positivos, mientras se eliminan o modifican los negativos. Se trata de una estrategia para mejorar tu vida diaria, aumentar la productividad y alcanzar tus metas a largo plazo.</p>
             
@@ -51,61 +42,72 @@
                 <p>En resumen, la gestión de hábitos es una herramienta poderosa para el desarrollo personal y el logro de objetivos. Al comprender y aplicar los principios de la gestión de hábitos, puedes transformar tu vida y crear un futuro más positivo y exitoso.</p>
                 </section>
         <% } else if (pagina === 'habitos') { %>
-            <section id="lista-habitos">
-                <h1>Lista de Hábitos Saludables</h1>
-
-    <h2>Hábitos Matutinos</h2>
-    <ul>
-        <li>Despertar temprano (6:00 AM).</li>
-        <li>Beber un vaso de agua al despertar.</li>
-        <li>Realizar 10 minutos de estiramientos o yoga.</li>
-        <li>Meditar durante 5 minutos.</li>
-        <li>Desayunar un plato equilibrado.</li>
-        <li>Planificar las tareas del día.</li>
-    </ul>
-
-    <h2>Hábitos de Salud y Bienestar</h2>
-    <ul>
-        <li>Hacer ejercicio durante 30 minutos (correr, nadar, etc.).</li>
-        <li>Comer 5 porciones de frutas y verduras al día.</li>
-        <li>Dormir 7-8 horas cada noche.</li>
-        <li>Limitar el consumo de cafeína.</li>
-        <li>Practicar la gratitud diariamente.</li>
-        <li>Pasar tiempo al aire libre.</li>
-    </ul>
-
-    <h2>Hábitos de Productividad</h2>
-    <ul>
-        <li>Priorizar las tareas más importantes.</li>
-        <li>Trabajar en bloques de tiempo enfocados.</li>
-        <li>Evitar distracciones (redes sociales, etc.).</li>
-        <li>Tomar descansos cortos cada hora.</li>
-        <li>Aprender algo nuevo cada día.</li>
-        <li>Revisar y ajustar metas semanalmente.</li>
-    </ul>
-
-    <h2>Hábitos Nocturnos</h2>
-    <ul>
-        <li>Preparar la ropa para el día siguiente.</li>
-        <li>Leer un libro antes de dormir.</li>
-        <li>Evitar pantallas 1 hora antes de dormir.</li>
-        <li>Escribir un diario sobre el día.</li>
-        <li>Practicar ejercicios de respiración.</li>
-        <li>Acostarse a una hora fija.</li>
-    </ul>
-
-    <h2>Hábitos de Relaciones Sociales</h2>
-    <ul>
-        <li>Llamar a un amigo o familiar.</li>
-        <li>Organizar una salida con amigos.</li>
-        <li>Hacer voluntariado.</li>
-        <li>Expresar gratitud a las personas.</li>
-        <li>Escuchar activamente a los demás.</li>
-        <li>Evitar criticar.</li>
-    </ul>
+            <section id="lista-habitos" class="informacion">
+                <h1 id="titulo-principal">Lista de Hábitos Saludables</h1>
+                <div class="grid-container">
+                    <div class="habitos-section">
+                        <h2>Hábitos Matutinos</h2>
+                        <ul>
+                            <li>Despertar temprano (6:00 AM).</li>
+                            <li>Beber un vaso de agua al despertar.</li>
+                            <li>Realizar 10 minutos de estiramientos o yoga.</li>
+                            <li>Meditar durante 5 minutos.</li>
+                            <li>Desayunar un plato equilibrado.</li>
+                            <li>Planificar las tareas del día.</li>
+                        </ul>
+                    </div>
+        
+                    <div class="habitos-section">
+                        <h2>Hábitos de Salud y Bienestar</h2>
+                        <ul>
+                            <li>Hacer ejercicio durante 30 minutos (correr, nadar, etc.).</li>
+                            <li>Comer 5 porciones de frutas y verduras al día.</li>
+                            <li>Dormir 7-8 horas cada noche.</li>
+                            <li>Limitar el consumo de cafeína.</li>
+                            <li>Practicar la gratitud diariamente.</li>
+                            <li>Pasar tiempo al aire libre.</li>
+                        </ul>
+                    </div>
+        
+                    <div class="habitos-section">
+                        <h2>Hábitos de Productividad</h2>
+                        <ul>
+                            <li>Priorizar las tareas más importantes.</li>
+                            <li>Trabajar en bloques de tiempo enfocados.</li>
+                            <li>Evitar distracciones (redes sociales, etc.).</li>
+                            <li>Tomar descansos cortos cada hora.</li>
+                            <li>Aprender algo nuevo cada día.</li>
+                            <li>Revisar y ajustar metas semanalmente.</li>
+                        </ul>
+                    </div>
+        
+                    <div class="habitos-section">
+                        <h2>Hábitos Nocturnos</h2>
+                        <ul>
+                            <li>Preparar la ropa para el día siguiente.</li>
+                            <li>Leer un libro antes de dormir.</li>
+                            <li>Evitar pantallas 1 hora antes de dormir.</li>
+                            <li>Escribir un diario sobre el día.</li>
+                            <li>Practicar ejercicios de respiración.</li>
+                            <li>Acostarse a una hora fija.</li>
+                        </ul>
+                    </div>
+        
+                    <div class="habitos-section">
+                        <h2>Hábitos de Relaciones Sociales</h2>
+                        <ul>
+                            <li>Llamar a un amigo o familiar.</li>
+                            <li>Organizar una salida con amigos.</li>
+                            <li>Hacer voluntariado.</li>
+                            <li>Expresar gratitud a las personas.</li>
+                            <li>Escuchar activamente a los demás.</li>
+                            <li>Evitar criticar.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         <% } else if (pagina === 'importar-habitos') { %>
-            <section id="importar-habitos">
+            <section id="importar-habitos" class="informacion">
                 <h1>Importar Hábitos: Guía Paso a Paso</h1>
 
                 <p>Importar hábitos se refiere al proceso de adoptar e integrar nuevos comportamientos en tu vida diaria. Aquí te presento algunos pasos y consejos para hacerlo de manera efectiva:</p>
@@ -158,8 +160,6 @@
         <% } %>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Gestión de Hábitos</p>
-    </footer>
+   <%- include("./layout/footer") %>
 </body>
 </html>

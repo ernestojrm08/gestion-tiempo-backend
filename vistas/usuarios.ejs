@@ -7,26 +7,256 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Gestión de Usuarios</h1>
-    <form id="form-usuario">
-        <input type="text" id="nombre" placeholder="Nombre" required>
-        <input type="email" id="correo" placeholder="Correo" required>
-        <input type="password" id="contraseña" placeholder="Contraseña" required>
-        <button type="submit">Agregar Usuario</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="usuarios-body"></tbody>
-    </table>
+    <div>
+        <%- include("./layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+                <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <main>
+                        <h1>Gestión de Usuarios</h1>
+                        <form id="form-usuario">
+                            <input type="hidden" id="usuario-id">
+                            <input type="text" id="nombre" placeholder="Nombre" required>
+                            <input type="email" id="correo" placeholder="Correo" required>
+                            <input type="password" id="contraseña" placeholder="Contraseña">
+                            <input type="text" id="id_usuario" placeholder="ID (buscar)">
+                            <button type="submit" id="button_form">Agregar Usuario</button>
+                            <br/>
+                            <button type="button" id="buscar_usuario">Buscar Usuario</button>
+                            <button type="button" id="cancelar-edicion" style="display:none;">Limpiar Formulario</button>
+                        </form>
+                        <div class="contenerdor_tabla">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usuarios-body"></tbody>
+                            </table>
+                        </div>
 
-    <script src="/js/api.js"></script>
-    <script src="/js/eventos.js"></script>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const formUsuario = document.getElementById('form-usuario');
+                                const usuariosBody = document.getElementById('usuarios-body');
+                                const usuarioIdInput = document.getElementById('usuario-id');
+                                const nombreInput = document.getElementById('nombre');
+                                const correoInput = document.getElementById('correo');
+                                const contraseñaInput = document.getElementById('contraseña');
+                                const submitButton = document.getElementById('button_form');
+                                const cancelarEdicionButton = document.getElementById('cancelar-edicion');
+                                const buscarButton = document.getElementById('buscar_usuario');
+                                let editingUserId = null;
+
+                                // Función para renderizar la tabla de usuarios
+                                const renderizarUsuarios = (usuarios) => {
+                                    console.log("llegada de uusario", usuarios);
+                                    usuariosBody.innerHTML = '';
+                                    usuarios.reverse();
+                                    usuarios.forEach(usuario => {
+                                        const row = usuariosBody.insertRow();
+                                        row.innerHTML = `
+                                            <td>${usuario._id}</td>
+                                            <td>${usuario.nombre}</td>
+                                            <td>${usuario.correo}</td>
+                                            <td>
+                                                <button class="btn-editar" data-id="${usuario._id}">Editar</button>
+                                                <button class="btn-eliminar" data-id="${usuario._id}">Eliminar</button>
+                                            </td>
+                                        `;
+                                    });
+
+                                    // Agregar event listeners a los botones después de renderizar
+                                    document.querySelectorAll('.btn-eliminar').forEach(button => {
+                                        button.addEventListener('click', (event) => {
+                                            const id = event.target.dataset.id;
+                                            eliminarUsuario(id);
+                                        });
+                                    });
+
+                                    document.querySelectorAll('.btn-editar').forEach(button => {
+                                        button.addEventListener('click', (event) => {
+                                            const id = event.target.dataset.id;
+                                            cargarUsuarioParaEdicion(id);
+                                        });
+                                    });
+                                };
+
+                                // Función para obtener la lista de usuarios
+                                const obtenerUsuarios = async () => {
+                                    try {
+                                        const response = await fetch('/api/usuarios');
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                        }
+                                        const usuarios = await response.json();
+                                        renderizarUsuarios(usuarios);
+                                    } catch (error) {
+                                        console.error('Error al obtener usuarios:', error);
+                                    }
+                                };
+
+                                // Función para obtener la lista de usuarios
+                                const obtenerUsuario = async (id) => {
+                                    try {
+                                        const response = await fetch('/api/usuarios/'+id);
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                        }
+                                        const usuario = await response.json();
+                                        renderizarUsuarios([usuario]);
+                                    } catch (error) {
+                                        console.error('Error al obtener usuarios:', error);
+                                    }
+                                };
+
+                                // Función para crear un nuevo usuario o actualizar uno existente
+                                formUsuario.addEventListener('submit', async (event) => {
+                                    event.preventDefault();
+                                    const nombre = nombreInput.value;
+                                    const correo = correoInput.value;
+                                    const contraseña = contraseñaInput.value;
+                                    const id = usuarioIdInput.value;
+
+                                    const userData = { nombre, correo };
+                                    if (contraseña) {
+                                        userData.contraseña = contraseña;
+                                    }
+
+                                    const method = id ? 'PUT' : 'POST';
+                                    const url = id ? `/api/usuarios/${id}` : '/api/usuarios';
+
+                                    try {
+                                        const response = await fetch(url, {
+                                            method: method,
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify(userData),
+                                        });
+
+                                        if (!response.ok) {
+                                            const errorData = await response.json();
+                                            console.error(`Error al ${method === 'PUT' ? 'actualizar' : 'crear'} usuario:`, errorData);
+                                            alert(`Error al ${method === 'PUT' ? 'actualizar' : 'crear'} usuario: ${errorData.mensaje || JSON.stringify(errorData.errores || {})}`);
+                                            return;
+                                        }
+
+                                        const resultado = await response.json();
+                                        console.log(`Usuario ${method === 'PUT' ? 'actualizado' : 'creado'}:`, resultado);
+                                        formUsuario.reset();
+                                        editingUserId = null;
+                                        submitButton.textContent = 'Agregar Usuario';
+                                        cancelarEdicionButton.style.display = 'none';
+                                        usuarioIdInput.value = "";
+                                        contraseñaInput.removeAttribute('required');
+                                        obtenerUsuarios(); // Recargar la lista de usuarios
+                                        alert(`Usuario ${method === 'PUT' ? 'actualizado' : 'creado'} correctamente`);
+
+                                    } catch (error) {
+                                        console.error(`Error al enviar la petición de ${method === 'PUT' ? 'actualización' : 'creación'}:`, error);
+                                        alert(`Error al ${method === 'PUT' ? 'actualizar' : 'crear'} usuario`);
+                                    }
+                                });
+
+                                // Función para eliminar un usuario
+                                const eliminarUsuario = async (id) => {
+                                    if (confirm(`¿Estás seguro de que deseas eliminar el usuario con ID: ${id}?`)) {
+                                        try {
+                                            const response = await fetch(`/api/usuarios/${id}`, {
+                                                method: 'DELETE',
+                                            });
+
+                                            if (!response.ok) {
+                                                const errorData = await response.json();
+                                                console.error('Error al eliminar usuario:', errorData);
+                                                alert(`Error al eliminar usuario: ${errorData.mensaje || 'Error desconocido'}`);
+                                                return;
+                                            }
+
+                                            const resultado = await response.json();
+                                            console.log('Usuario eliminado:', resultado);
+                                            obtenerUsuarios(); // Recargar la lista de usuarios
+                                            alert('Usuario eliminado correctamente');
+
+                                        } catch (error) {
+                                            console.error('Error al enviar la petición de eliminación:', error);
+                                            alert('Error al eliminar usuario');
+                                        }
+                                    }
+                                };
+
+                                // Función para cargar los datos del usuario en el formulario para editar
+                                const cargarUsuarioParaEdicion = async (id) => {
+                                    try {
+                                        const response = await fetch(`/api/usuarios/${id}`);
+                                        if (!response.ok) {
+                                            const errorData = await response.json();
+                                            console.error('Error al obtener usuario para editar:', errorData);
+                                            alert(`Error al obtener usuario para editar: ${errorData.mensaje || 'Error desconocido'}`);
+                                            return;
+                                        }
+                                        const usuario = await response.json();
+                                        editingUserId = usuario._id;
+                                        usuarioIdInput.value = usuario._id;
+                                        nombreInput.value = usuario.nombre;
+                                        correoInput.value = usuario.correo;
+                                        contraseñaInput.value = ''; // Limpiar el campo de contraseña por seguridad
+                                        contraseñaInput.removeAttribute('required');
+                                        submitButton.textContent = 'Guardar Cambios';
+                                        cancelarEdicionButton.style.display = 'inline-block';
+                                    } catch (error) {
+                                        console.error('Error al cargar usuario para edición:', error);
+                                        alert('Error al cargar usuario para edición');
+                                    }
+                                };
+
+                                // Función para cancelar la edición
+                                cancelarEdicionButton.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    formUsuario.reset();
+                                    usuarioIdInput.value = "";
+                                    editingUserId = null;
+                                    submitButton.textContent = 'Agregar Usuario';
+                                    cancelarEdicionButton.style.display = 'none';
+                                    contraseñaInput.setAttribute('required', 'required');
+                                    obtenerUsuarios();
+                                });
+                                
+                                buscarButton.addEventListener('click',(event) =>{
+                                    event.preventDefault();
+                                    const id = document.getElementById("id_usuario").value;
+                                    if(id){
+                                        cancelarEdicionButton.style.display = 'block';
+                                        formUsuario.reset();
+                                        usuarioIdInput.value = "";
+                                        obtenerUsuario(id);
+                                    }
+                                })
+                                // Cargar la lista de usuarios al cargar la página
+                                obtenerUsuarios();
+                            });
+                        </script>
+                    </main>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include("./layout/footer"); %>
 </body>
 </html>

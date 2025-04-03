@@ -1,0 +1,30 @@
+<header>
+    <style>
+        .header_nav{
+            display: flex;
+            justify-items: center;
+        }
+        .header_nav_ul{
+            list-style: none;
+                padding: 0 1rem;
+            display: flex;
+            gap: 1rem;  
+        }
+    </style>
+    <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
+    <h1>Gestión de Tiempo</h1>
+    <nav class="header_nav">
+        <ul class="header_nav_ul">
+            <li>Rol:<%= usuario.rol %></li>
+            <li>ID:<%= usuario.id %></li>
+        </ul>
+        <button id="salir">Salir</button>
+    </nav>
+    <script>
+            document.getElementById("salir").addEventListener("click", async (e) => {
+            console.log("salir");
+            document.cookie =  "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = "/home";
+       });
+    </script>
+  </header>

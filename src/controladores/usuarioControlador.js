@@ -32,7 +32,7 @@ const crearUsuario = async (req, res) => {
         }
 
         // Crear usuario
-        const nuevoUsuario = new Usuario({ nombre, correo, contraseña, rol: "admin" });
+        const nuevoUsuario = new Usuario({ nombre, correo, contraseña, rol: "usuario" });
         await nuevoUsuario.save();
 
         res.status(201).json({ mensaje: "Usuario creado correctamente", usuario: nuevoUsuario });

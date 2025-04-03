@@ -12,12 +12,10 @@ const {
 const router = express.Router();
 
 //renderizar vistas habitos
-router.get("/vista", async (req, res) => {
+router.get("/vista",verificarToken, async (req, res) => {
     try {
-        console.log("Intentando obtener hábitos...");
         const habitos = await Habito.find();
-        console.log("Hábitos obtenidos:", habitos);
-        res.render("habitos", { habitos });
+        res.render("habitos", { habitos,usuario:req.usuario });
     } catch (error) {
         console.error("ERROR DETECTADO:", error);
         res.status(500).send("Error al cargar la vista de hábitos");

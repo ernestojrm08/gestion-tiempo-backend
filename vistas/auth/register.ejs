@@ -7,22 +7,16 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <img src="https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png" alt="Icono HHVS">
-        <h1>Gestión de Hábitos</h1>
-        <nav>
-          <a href="/home">Inicio</a>
-          <a href="/home/habitos">Hábitos</a>
-          <a href="/home/importar-habitos">Importar Hábitos</a>
-          <a href="/">Iniciar sesión</a>
-        </nav>
-      </header>
+    <%- include("../layout/header"); %>
     <main>
         <section>
-    <form id="form-register" class="form__auth">
-        <input type="text" id="nombre" placeholder="Nombre" required>
-        <input type="email" id="correo" placeholder="Correo" required>
-        <input type="password" id="contraseña" placeholder="Contraseña" required>
+    <form id="form-register" class="form__auth" method="POST" action="/api/auth/registro">
+        <% if(mensaje.length >0 ){ %>
+            <div class="alert"><%=mensaje%></div>
+        <% } %>
+        <input type="text"     name="nombre" id="nombre" placeholder="Nombre" required>
+        <input type="email"    name="correo" id="correo" placeholder="Correo" required>
+        <input type="password" name="contraseña" id="contraseña" placeholder="Contraseña" required>
         <button type="submit">Registrarse</button>
         <span>
             ¿Ya tiene cuenta? <a href="/login">ingrese</a>
@@ -30,11 +24,6 @@
     </form>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2024 Gestión de Hábitos</p>
-    </footer>
-
-    <script src="/js/api.js" type="module"></script>
-    <script src="/js/auth/register.js" type="module"></script>
+    <%- include("../layout/footer"); %>
 </body>
 </html>

@@ -4,7 +4,7 @@ Este es un sistema para gestionar usuarios, hábitos y actividades con una API R
 ##  Tecnologías Utilizadas 
 - **Backend:** Node.js, Express.js, Mongoose
 - **Base de Datos:** MongoDB Atlas
-- **Frontend:** ( DIEGO Especificar si usaron React, Vue, Angular, etc.)
+- **Frontend:** EJS y vanilla JS
 - **Herramientas:** Postman, Thunder Client, GitHub
 
 ##  Instalación y Configuración 

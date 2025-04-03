@@ -9,7 +9,7 @@ router.get("/actividades", obtenerActividadesPublicas);
 //renderizar vistas de usuario
 router.get("/", async (req, res) => {
     try {
-        res.render("auth/login");
+        res.render("auth/login",{mensaje:req.flash('error')});
     } catch (error) {
         console.error("Error DETECTADO", error)
         res.status(500).send("Error al cargar lista de usuarios")
@@ -18,16 +18,16 @@ router.get("/", async (req, res) => {
 
 router.get("/login", async (req, res) => {
     try {
-        res.render("auth/login");
+        res.render("auth/login",{mensaje:req.flash('error')});
     } catch (error) {
         console.error("Error DETECTADO", error)
         res.status(500).send("Error al cargar lista de usuarios")
     }
 })
 
-router.get("/register", async (req, res) => {
+router.get("/registro", async (req, res) => {
     try {
-        res.render("auth/register");
+        res.render("auth/register",{mensaje:req.flash('error')});
     } catch (error) {
         console.error("Error DETECTADO", error)
         res.status(500).send("Error al cargar lista de usuarios")

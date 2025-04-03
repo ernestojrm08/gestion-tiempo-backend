@@ -1,0 +1,361 @@
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #e0f2f7, #f0f8ff);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+header img {
+  width: 60px;
+  height: auto;
+  margin-right: 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+header nav {
+  margin-left: auto;
+}
+
+header nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+aside {
+  padding: 1rem;
+  transition: all 0.5s;
+}
+
+main section {
+  border-radius: 10px;
+  margin: auto;
+}
+
+h1, h2, h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+ul, ol {
+  margin-left: 1.5rem;
+}
+
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+footer {
+  background-color: white;
+  color: #333;
+  text-align: center;
+  padding: 1rem 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.contariner__dashboard {
+  display: flex;
+  gap: 6rem;
+}
+
+.container__void {
+  width: 600px;
+  height: 400px;
+  background-color: lineal-gradient(135deg, #e0f2f7, #f0f8ff);
+  border-radius: 10px;
+  background-image: url(https://www.juntadeandalucia.es/educacion/eaprendizaje/wp-content/uploads/2024/09/HHVS.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Estilos para el formulario de hábitos */
+#form-habito {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  max-width: 1080px;
+}
+
+#form-habito input[type="text"],
+#form-habito textarea {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  flex: 1 1 200px;
+}
+
+#form-habito textarea {
+    resize: none; 
+    display: grid;
+    place-items: center;
+    height: 2.5rem;
+}
+
+#form-habito button {
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+/* Estilos para el formulario de usuarios */
+#form-usuario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  max-width: 900px;
+}
+
+#form-usuario input[type="text"],
+#form-usuario input[type="email"],
+#form-usuario input[type="password"] {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  flex: 1 1 200px;
+}
+
+#form-usuario button {
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+#form-actividad {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1080px;
+  margin-bottom: 20px;
+  gap: 0rem 2rem;
+}
+
+#form-actividad input,
+#form-actividad textarea,
+#form-actividad button,
+#form-activdad .input_select{
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.input_select{
+  width: 180px;
+  height: 33px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#form-actividad textarea {
+  resize: none; /* Permite redimensionar verticalmente */
+  height: 22px;
+  width: 180px;
+}
+
+#form-actividad button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+#form-actividad button:hover {
+  background-color: #0056b3;
+}
+
+#form-actividad input[type="checkbox"] {
+  align-self: flex-start; /* Alinea el checkbox al inicio del flex container */
+  margin-right: 5px;
+}
+
+#form-actividad label {
+  display: flex;
+  align-items: center; /* Alinea el texto del label con el checkbox */
+}
+.menu{
+  width: 100%;
+}
+.menu ul{
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.menu button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: 1s all;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  margin: 0;
+  padding: 0;
+  padding: 1rem 3rem;
+  border-radius: 0;
+}
+.menu button:hover{
+  background-color: rgb(0, 60, 181);
+  color:#e0f2f7;
+}
+
+.informacion{
+  max-width: 1080px;
+  width: 100%;
+  margin: auto;
+  text-align: start;
+  background-color: white;
+  border-radius: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.informacion ul,ol{
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.informacion h2{
+  width: 100%;
+  padding: 0;
+  padding-left: 2rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Crea columnas que se ajustan al contenido */
+  gap: 20px; /* Espacio entre las secciones de la grilla */
+  padding: 20px;
+  width: 100%;
+}
+
+.habitos-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.habitos-section h2 {
+  color: #333;
+  margin-top: 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.habitos-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.habitos-section ul li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  max-width: 260px;
+}
+
+.habitos-section ul li:last-child {
+  border-bottom: none;
+}
+
+#titulo-principal {
+  grid-column: 1 / -1; /* Ocupa toda la anchura de la grilla */
+  text-align: center;
+  margin-bottom: 20px;
+}
+.grid-container h2{
+  padding: 0;
+}
+.dashboard{
+  padding: 1rem;
+  max-width: 1280px;
+}
+.input_check{
+  width: 1rem;
+  height: 1rem;
+  margin: auto !important;
+}
+.menu_ul{
+  padding-left: 1rem !important;
+  margin: 0;
+    background: #48a0ff;
+    color: white;
+    height: 2.5rem;
+   
+}
+.menu_ul li{
+  height: 100%;
+  display: grid;
+  place-items: center;
+  transition: all 0.5s;
+  padding: 0rem 1rem ;
+}
+.menu_ul li:hover{
+  background-color: rgb(0, 60, 181);
+}
+.menu_ul a{
+  text-decoration: none;
+  color: white;
+}
+.alert{
+  color: red;
+    text-align: start;
+    width: 100%;
+}
+.check_from{
+  display: flex;
+  gap: 0.5rem;
+}
+.check_from input{
+ margin: auto;
+}
+.contenerdor_tabla{
+  height: 50vh;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+table{
+  background: white;
+  padding: 1rem;
+  border-radius: 0.8rem;
+  min-width: 1080px;
+  max-width: 50vh;
+}
+
+table tbody{
+  overflow-y: scroll;
+}

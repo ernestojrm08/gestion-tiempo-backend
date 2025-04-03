@@ -22,7 +22,9 @@ const registrarUsuario = async (req, res) => {
     // Verificar si hay errores de validación
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
-        return res.status(400).json({ errores: errores.array() });
+        //return res.status(400).json({ errores: errores.array() });
+        req.flash('error', errores.array().map(item => item.msg).join("<br>") ); 
+        return res.redirect('/registro');
     }
 
     try {
@@ -31,7 +33,9 @@ const registrarUsuario = async (req, res) => {
         // Verificar si el usuario ya existe
         const usuarioExiste = await Usuario.findOne({ correo });
         if (usuarioExiste) {
-            return res.status(400).json({ mensaje: "El correo ya está registrado" });
+            //return res.status(400).json({ mensaje: "El correo ya está registrado" });
+            req.flash('error',"El correo ya está registrado" );
+            return res.redirect('/registro');
         }
 
         // Crear usuario
@@ -43,9 +47,13 @@ const registrarUsuario = async (req, res) => {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        res.status(201).json({ mensaje: "Usuario registrado correctamente", token });
+        res.cookie("token",token);
+        return res.redirect("/api/usuarios/dashboard");
+        //res.status(201).json({ mensaje: "Usuario registrado correctamente", token });
     } catch (error) {
-        res.status(500).json({ mensaje: "Error al registrar usuario", error });
+        //res.status(500).json({ mensaje: "Error al registrar usuario", error });
+        req.flash('error',"Error al registrar usuario" );
+        return res.redirect('/registro');
     }
 };
 
@@ -54,17 +62,21 @@ const registrarUsuario = async (req, res) => {
 const iniciarSesion = async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
-
+      
         // Verificar si el usuario existe
         const usuario = await Usuario.findOne({ correo });
         if (!usuario) {
-            return res.status(400).json({ mensaje: "Credenciales inválidas" });
+            //return res.status(400).json({ mensaje: "Credenciales inválidas" });
+            req.flash('error',"Usuario no encontrado");
+            return res.redirect('/login');
         }
 
         // Comparar contraseñas
         const contraseñaValida = await usuario.compararContraseña(contraseña);
         if (!contraseñaValida) {
-            return res.status(400).json({ mensaje: "Credenciales inválidas" });
+            req.flash('error',"Credenciales inválidas");
+            return res.redirect('/login');
+            //return res.status(400).json({ mensaje: "Credenciales inválidas" });
         }
 
         // Generar token JWT
@@ -72,9 +84,13 @@ const iniciarSesion = async (req, res) => {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        res.json({ mensaje: "Inicio de sesión exitoso", token });
+        //res.json({ mensaje: "Inicio de sesión exitoso", token });
+        res.cookie("token",token);
+        return res.redirect("/api/usuarios/dashboard");
     } catch (error) {
-        res.status(500).json({ mensaje: "Error al iniciar sesión", error });
+        //res.status(500).json({ mensaje: "Error al iniciar sesión", error });
+        req.flash('error',"Error al iniciar sesión");
+        return res.redirect('/login');
     }
 };
 

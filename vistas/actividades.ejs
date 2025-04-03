@@ -3,35 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Actividades</title>
+    <title>Dashboard - Actividades</title>
     <link rel="stylesheet" href="/css/style.css">
+  
 </head>
 <body>
-    <h1>Gestión de Actividades</h1>
-    <form id="form-actividad">
-        <input type="text" id="nombre" placeholder="Nombre de la Actividad" required>
-        <button type="submit">Agregar Actividad</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="actividades-body">
-            <% actividades.forEach(actividad => { %>
-                <tr>
-                    <td><%= actividad._id %></td>
-                    <td><%= actividad.nombre %></td>
-                    <td><button onclick="eliminarActividad('<%= actividad._id %>')">Eliminar</button></td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+    <div>
+        <%- include("./layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+                <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <h1>Gestión de Actividades</h1>
+                    <form id="form-actividad">
+                        <input type="hidden" id="actividad-id">
 
-    <script src="/js/api.js"></script>
-    <script src="/js/eventos.js"></script>
+                        <div>
+                            <label for="usuario">Usuario:</label>
+                            <select class="input_select" id="usuario" required></select>
+                        </div>
+
+                        <div>
+                            <label for="habito">Hábito (opcional):</label>
+                            <select class="input_select" id="habito"></select>
+                        </div>
+
+                        <div>
+                            <label for="proyecto">Proyecto (opcional):</label>
+                            <input type="text" id="proyecto" placeholder="Nombre del proyecto">
+                        </div>
+
+                        <div>
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" placeholder="Nombre de la actividad" required>
+                        </div>
+
+                        <div>
+                            <label for="descripcion">Descripción:</label>
+                            <textarea id="descripcion" placeholder="Descripción de la actividad"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="categoria">Categoría:</label>
+                            <input type="text" id="categoria" placeholder="Categoría de la actividad" required>
+                        </div>
+
+                        <div>
+                            <label for="fecha_inicio">Fecha de Inicio:</label>
+                            <input type="datetime-local" id="fecha_inicio" required>
+                        </div>
+
+                        <div>
+                            <label for="fecha_fin">Fecha de Fin (opcional):</label>
+                            <input type="datetime-local" id="fecha_fin">
+                        </div>
+
+                        <div>
+                            <label for="fecha_fin">ID (buscar):</label>
+                            <input type="text" id="id_actividad" placeholder="ID">
+                        </div>
+
+                        <label class="check_from">
+                            Completada:<input type="checkbox" id="completada" class="input_check">
+                        </label>
+
+                        <div>
+                            <% if (usuario.rol === 'admin') { %>
+                                <button class="button_primary" type="submit" id="button_form">Agregar Actividad</button>
+                            <% }  %>
+                            <button class="button_primary" type="button" id="button_buscar">Buscar Actividad</button>
+                            <button class="button_primary" type="button" id="button_limpiar">Limpiar Formulario</button>
+                        </div>
+                    </form>
+                    <div class="contenerdor_tabla">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Hábito</th>
+                                    <th>Proyecto</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
+                                    <th>Completada</th>
+                                    <% if (usuario.rol === 'admin') { %>
+                                    <th>Acciones</th>
+                                    <% } %>
+                                </tr>
+                            </thead>
+                            <tbody id="actividades-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include("./layout/footer"); %>
+    <% if (usuario.rol === 'admin') { %>
+        <script type="module" src="/js/admin_actividad.js"></script>
+    <% }  %>
+    <% if (usuario.rol !== 'admin') { %>
+        <script type="module" src="/js/actividad.js"></script>
+    <% } %>
 </body>
 </html>
