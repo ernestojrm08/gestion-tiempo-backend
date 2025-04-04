@@ -1,0 +1,16 @@
+<h1>Mis Recordatorios</h1>
+<a href="/api/recordatorios/crear">Nuevo Recordatorio</a>
+<ul>
+    <% recordatorios.forEach(recordatorio => { %>
+        <li>
+          <h3><%= recordatorio.titulo %></h3>
+          <p><%= recordatorio.descripcion %></p>
+          <p>Fecha: <%= recordatorio.fechaVencimiento.toLocaleString() %></p>
+          <p>Prioridad: <%= recordatorio.prioridad %></p>
+          <a href="/api/recordatorios/<%= recordatorio._id %>/editar">Editar</a>
+          <form action="/api/recordatorios/<%= recordatorio._id %>?_method=DELETE" method="POST">
+            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este recordatorio?')">Eliminar</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
