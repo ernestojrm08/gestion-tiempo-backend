@@ -34,6 +34,14 @@ router.get("/registro", async (req, res) => {
     }
 })
 
+router.get("/error", async (req, res) => {
+    try {
+        res.render("error",{mensaje:req.flash('error')});
+    } catch (error) {
+        console.error("Error DETECTADO", error)
+        res.status(500).send("Error al cargar lista de usuarios")
+    }
+})
 
 // Ruta para la página de inicio
 router.get('/home', (req, res) => {

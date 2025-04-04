@@ -1,3 +1,26 @@
+console.log("eventosActividades.js carga correctamente");
+
+async function crearActividad(actividadData) {
+    try {
+        const response = await fetch('/api/actividades', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(actividadData),
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Error al crear actividad: ${error.message || response.statusText}`);
+        }
+        let resp =  await response.json();
+        alert(resp.mensaje);
+        return resp;
+    } catch (error) {
+        console.error("Error al crear actividad:", error);
+        throw error;
+    }
+}
 
 async function obtenerActividades() {
     try {
@@ -97,57 +120,144 @@ function validarFechas(inicioId, finId) {
     }
     return true; // Indica que la validación fue exitosa
   }
-async function buscarActividad(){
-   const usuario = document.getElementById("usuario").value;
-   const habito = document.getElementById("habito").value;
-   const actividadId = document.getElementById("id_actividad").value;
-   const categoria = document.getElementById("categoria").value;
-   const proyecto = document.getElementById("proyecto").value;
-   const fecha_inicio = document.getElementById("fecha_inicio").value;
-   const fecha_fin = document.getElementById("fecha_fin").value;
-   const nombre = document.getElementById("nombre").value;
-   let list_url = [];
-
-   if(actividadId) list_url.push({url:`/api/actividades/${actividadId}`,status:undefined,resp:[]});
-   if(nombre)   list_url.push({url:`/api/actividades/buscar/${nombre}`,status:undefined,resp:[]});
-   if(proyecto) list_url.push({url:`/api/actividades/proyectos/${proyecto}/actividades`,status:undefined,resp:[]});
-   if(usuario)  list_url.push({url:`/api/actividades/usuarios/${usuario}/ultimas-actividades`,status:undefined,resp:[]});
-   if(usuario && categoria) list_url.push({url:`/api/actividades/usuarios/${usuario}/categorias/${categoria}`,status:undefined,resp:[]});
-   if(habito && fecha_fin && fecha_fin){
-        if(!validarFechas("fecha_inicio", "fecha_fin")){
-            alert("La fecha final incorrecta, fecha final menor a fecha inicial");
-            return
-        }
-        list_url.push({url:`/api/actividades/habitos/${habito}/actividades/${fecha_inicio}/${fecha_fin}`,status:undefined,resp:[]});
-   } 
-
-
-   console.log(list_url)
-   list_url.forEach((consulta)=>{
-    consultarRuta(consulta.url)
-    .then(r => {
-        consulta.resp = r
-        consulta.status = true;
+  async function buscarActividad(){
+    const usuario = document.getElementById("usuario").value;
+    const habito = document.getElementById("habito").value;
+    const actividadId = document.getElementById("id_actividad").value;
+    const categoria = document.getElementById("categoria").value;
+    const proyecto = document.getElementById("proyecto").value;
+    const fecha_inicio = document.getElementById("fecha_inicio").value;
+    const fecha_fin = document.getElementById("fecha_fin").value;
+    const nombre = document.getElementById("nombre").value;
+    let list_url = [];
+ 
+    const detailsElement = document.getElementById('details_busqueda');
+    if (detailsElement.hasAttribute('open')) {
+       const sin_finalizar = document.getElementById('sin_finalizar').checked;
+       if(sin_finalizar)     list_url.push({url:`/api/actividades/actividadesAbiertas/sinFinalizar`,status:undefined,resp:[]});
+       busquedaAvanzada();
+     }
+ 
+    if(actividadId) list_url.push({url:`/api/actividades/${actividadId}`,status:undefined,resp:[]});
+    if(nombre)   list_url.push({url:`/api/actividades/buscar/${nombre}`,status:undefined,resp:[]});
+    if(proyecto) list_url.push({url:`/api/actividades/proyectos/${proyecto}/actividades`,status:undefined,resp:[]});
+    if(usuario)  list_url.push({url:`/api/actividades/usuarios/${usuario}/ultimas-actividades`,status:undefined,resp:[]});
+    if(usuario && categoria) list_url.push({url:`/api/actividades/usuarios/${usuario}/categorias/${categoria}`,status:undefined,resp:[]});
+    if(habito && fecha_fin && fecha_fin){
+         if(!validarFechas("fecha_inicio", "fecha_fin")){
+             alert("La fecha final incorrecta, fecha final menor a fecha inicial");
+             return
+         }
+         list_url.push({url:`/api/actividades/habitos/${habito}/actividades/${fecha_inicio}/${fecha_fin}`,status:undefined,resp:[]});
+    } 
+ 
+    console.log(list_url)
+    list_url.forEach((consulta)=>{
+     consultarRuta(consulta.url)
+     .then(r => {
+         consulta.resp = r
+         consulta.status = true;
+     })
+      .catch(error => {
+         console.log(error,consulta.url);
+         consulta.status = false;
+      })
+      .finally(()=>{
+         let statusR = list_url.filter((el)=> typeof el.status == "boolean" ).length;
+         if(statusR == list_url.length){
+           //console.log("final consulta");
+            //console.log(list_url);
+            let aux_list = list_url.map((el)=>{
+             return el.resp
+            }).flat()
+            let resp_final = [...new Map(aux_list.map(objeto => [objeto._id, objeto])).values()];
+            dibujarTabla(resp_final);
+         }
+      })
     })
-     .catch(error => {
-        console.log(error,consulta.url);
-        consulta.status = false;
+ }
+ async function busquedaAvanzada(){
+     let list_url = [];
+     const tiempo_categoria = document.getElementById('tiempo_categoria').value;
+     const sin_actividades = document.getElementById('sin_actividades').checked;
+     
+     if(tiempo_categoria)  list_url.push({url:`/api/actividades/tiempo/${tiempo_categoria}`,status:undefined,resp:[],type:"tiempo"});
+     if(sin_actividades)   list_url.push({url:`/api/actividades/habitos/sinActividades`,status:undefined,resp:[],type:"habito"});
+ 
+     list_url.forEach((consulta)=>{
+         consultarRuta(consulta.url)
+         .then(r => {
+             consulta.resp = r
+             consulta.status = true;
+         })
+          .catch(error => {
+             console.log(error,consulta.url);
+             consulta.status = false;
+          })
+          .finally(()=>{
+             let statusR = list_url.filter((el)=> typeof el.status == "boolean" ).length;
+             if(statusR == list_url.length){
+                 console.log(list_url)
+                list_url.map((el)=>{
+                 switch (el.type) {
+                     case "tiempo":
+                         dibujarTiempoBA(el.resp)
+                     break;
+                     case "habito":
+                         dibujarHabitosBA(el.resp)
+                     break;
+                   }
+                })
+             }
+          })
+        })
+ }
+ 
+ function dibujarHabitosBA(array){
+     const habito = document.getElementById('habitos_BA');
+     let auxHtml = `<div>Habitos sin actividad asignada:</div>`;
+     array.map((el)=>{
+         auxHtml+=`
+           <div id="item_habito">
+             id:${el?._id}
+             <br/>
+             usuario:${el.usuario}
+             <br/>
+             nombre:${el.nombre}
+              <br/>
+             descripcion:${el.descripcion}
+           </div> 
+         `
+     });
+     habito.innerHTML = auxHtml;
+ }
+ 
+ function dibujarTiempoBA(array){
+     const tiempo = document.getElementById('tiempo_BA');
+     const tiempo_categoria = document.getElementById('tiempo_categoria').value;
+     let auxHtml = `<div>tiempo por ${tiempo_categoria}:</div>`;
+     array.map((el)=>{
+      auxHtml+=`
+        <div id="item_tiempo">
+          nombre:${el?._id}
+          <br/>
+          tiempo:${convertirMilisegundosAHoras(el.tiempoTotal).toFixed(2)}h
+        </div> 
+      `
      })
-     .finally(()=>{
-        let statusR = list_url.filter((el)=> typeof el.status == "boolean" ).length;
-        if(statusR == list_url.length){
-          //console.log("final consulta");
-           //console.log(list_url);
-           let aux_list = list_url.map((el)=>{
-            return el.resp
-           }).flat()
-           let resp_final = [...new Map(aux_list.map(objeto => [objeto._id, objeto])).values()];
-           dibujarTabla(resp_final);
-        }
-     })
-   })
-}
-
+     tiempo.innerHTML = auxHtml;
+ }
+ 
+ function convertirMilisegundosAHoras(milisegundos) {
+     // 1 hora tiene 60 minutos * 60 segundos * 1000 milisegundos
+     const milisegundosEnUnaHora = 60 * 60 * 1000;
+   
+     // Dividir los milisegundos totales por la cantidad de milisegundos en una hora
+     const horas = milisegundos / milisegundosEnUnaHora;
+   
+     return horas;
+ }
+   
 
 async function actualizarTabla() {
     const tablaActividades = document.getElementById("actividades-body");
@@ -159,6 +269,7 @@ async function actualizarTabla() {
 function dibujarTabla(actividades){
     const tablaActividades = document.getElementById("actividades-body");
     tablaActividades.innerHTML = "";
+    if(actividades.length == 0) return;
     actividades.reverse();
     actividades.forEach(actividad => {
         const fila = document.createElement("tr");
@@ -190,25 +301,23 @@ function limpiarFormulario() {
     document.getElementById("fecha_inicio").value = "";
     document.getElementById("fecha_fin").value = "";
     document.getElementById("completada").checked = false;
+    
+    const detailsElement = document.getElementById('details_busqueda');
+    if (detailsElement.hasAttribute('open')) {
+        document.getElementById("tiempo_categoria").value = "";
+        document.getElementById("sin_actividades").checked = false;
+        document.getElementById("sin_finalizar").checked = false;
+        document.getElementById("respuesta_busqueda_avanzada").innerHTML=`<div id="tiempo_BA"></div><div id="habitos_BA"></div>`;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     await cargarUsuariosYHabitos();
     await actualizarTabla();
     
-    document.getElementById("button_buscar").addEventListener("click",(event)=>{
-        event.preventDefault();
-        buscarActividad();
-    });
-
-    document.getElementById("button_limpiar").addEventListener("click", ()=>{
-        actualizarTabla();
-        limpiarFormulario();
-    });
-
     document.getElementById("form-actividad").addEventListener("submit", async (e) => {
         e.preventDefault();
-        
+        const actividadId = document.getElementById("actividad-id").value;
         const usuario = document.getElementById("usuario").value;
         const habito = document.getElementById("habito").value;
         const proyecto = document.getElementById("proyecto").value;
@@ -218,7 +327,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fecha_inicio = document.getElementById("fecha_inicio").value;
         const fecha_fin = document.getElementById("fecha_fin").value;
         const completada = document.getElementById("completada").checked;
-    
+
         const actividadData = {
             usuario,
             habito: habito || null,
@@ -230,34 +339,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             fecha_fin: fecha_fin || null,
             completada,
         };
-    
+
         if(!validarFechas("fecha_inicio", "fecha_fin") && actividadData.fecha_fin != null){
-            alert("La fecha final incorrecta, fecha final menor a fecha inicial");
-            return;
+                alert("La fecha final incorrecta, fecha final menor a fecha inicial");
+                return
         }
-    
-        try {
-            const response = await fetch('/api/actividades', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(actividadData),
-            });
-            
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(`Error al crear actividad: ${error.message || response.statusText}`);
-            }
-            
-            const resp = await response.json();
-            alert(resp.mensaje);
-            await actualizarTabla();
-            limpiarFormulario();
-        } catch (error) {
-            console.error("Error al crear actividad:", error);
-            alert("Error al crear actividad: " + error.message);
-        }
+        await crearActividad(actividadData);
+
+        await actualizarTabla();
+        limpiarFormulario();
     });
 
+    document.getElementById("button_buscar").addEventListener("click",(event)=>{
+        event.preventDefault();
+        buscarActividad();
+    });
+
+    document.getElementById("button_limpiar").addEventListener("click", ()=>{
+        actualizarTabla();
+        limpiarFormulario();
+    });
 });

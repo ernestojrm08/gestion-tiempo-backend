@@ -76,7 +76,32 @@
                         <label class="check_from">
                             Completada:<input type="checkbox" id="completada" class="input_check">
                         </label>
-
+                        <details class="busqueda_avanzada" id="details_busqueda">
+                            <summary>Busqueda avanzada</summary>
+                          <div class="busqueda_avanzada__container">
+                            <div class="busqueda_avanzada__contSelect">
+                                <label for="tiempo">Tiempo por categoría o proyecto:</label>
+                                <select class="input_select" id="tiempo_categoria" >
+                                    <option value="">N/A</option>
+                                    <option value="proyecto">proyecto</option>
+                                    <option value="categoria">categoria</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="check_from">
+                                   Habitos sin actividades:<input type="checkbox" id="sin_actividades" class="input_check">
+                                </label>
+                            </div>
+                            <div>
+                                <label class="check_from">
+                                   Actividades sin finalizar:<input type="checkbox" id="sin_finalizar" class="input_check">
+                                </label>
+                            </div>
+                          </div>
+                          <div id="respuesta_busqueda_avanzada">
+                            <div id="tiempo_BA"></div><div id="habitos_BA"></div>
+                          </div>
+                        </details>
                         <div>
                             <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
                                 <button class="button_primary" type="submit" id="button_form">Agregar Actividad</button>
@@ -91,6 +116,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Usuario</th>
+                                    <% if (usuario.rol === 'admin') { %>
+                                        <th>Acciones</th>
+                                    <% } %>
                                     <th>Hábito</th>
                                     <th>Proyecto</th>
                                     <th>Nombre</th>
@@ -99,9 +127,6 @@
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
                                     <th>Completada</th>
-                                    <% if (usuario.rol === 'admin') { %>
-                                    <th>Acciones</th>
-                                    <% } %>
                                 </tr>
                             </thead>
                             <tbody id="actividades-body"></tbody>

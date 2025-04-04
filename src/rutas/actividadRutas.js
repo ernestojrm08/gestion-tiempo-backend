@@ -42,9 +42,9 @@ router.get("/usuarios/:usuarioId/categorias/:categoria", verificarToken, obtener
 router.get("/usuarios/:usuarioId/ultimas-actividades", verificarToken, obtenerUltimasActividades); // Obtener Ultimas Actividades
 router.get("/proyectos/:proyecto/actividades", verificarToken, obtenerActividadesPorProyecto); // Obtener actividades por Proyecto
 router.get("/habitos/:habitoId/actividades/:fechaInicio/:fechaFin", verificarToken, obtenerActividadesPorHabitoYRangoFechas); // Obtener Actividades por Hábito y Rango de Fechas
-router.get("/sin-actividades", verificarToken, obtenerHabitosSinActividades); // Obtener Hábitos sin Actividades
+router.get("/habitos/sinActividades", verificarToken, obtenerHabitosSinActividades); // Obtener Hábitos sin Actividades
 router.get("/buscar/:nombre", verificarToken, buscarActividadesPorNombre); // Actividades por Nombre
 router.get("/tiempo/:agruparPor", verificarToken, calcularTiempoPorCategoriaOProyecto); // Tiempo por categoría o proyecto
-router.get("/sin-finalizar", verificarToken, obtenerActividadesAbiertas); // Actividades Abiertas
+router.get("/actividadesAbiertas/sinFinalizar", verificarToken, obtenerActividadesAbiertas); // Actividades Abiertas
 
 module.exports = router;

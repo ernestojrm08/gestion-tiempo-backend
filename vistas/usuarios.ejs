@@ -31,6 +31,7 @@
                             <input type="email" id="correo" placeholder="Correo" required>
                             <input type="password" id="contraseña" placeholder="Contraseña">
                             <input type="text" id="id_usuario" placeholder="ID (buscar)">
+  
                             <button type="submit" id="button_form">Agregar Usuario</button>
                             <br/>
                             <button type="button" id="buscar_usuario">Buscar Usuario</button>
@@ -43,6 +44,7 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
+                                        <th>Rol</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -51,6 +53,37 @@
                         </div>
 
                         <script>
+                            function consultaCambioRol(usuarioId, nuevoRol) {
+                                fetch('/api/usuarios/asignar-rol', {
+                                  method: 'POST',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                  },
+                                  body: JSON.stringify({
+                                    usuarioId: usuarioId,
+                                    rol: nuevoRol
+                                  }),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                  console.log('Respuesta del servidor:', data);
+                                  // Aquí puedes manejar la respuesta de tu consulta
+                                  alert(data.mensaje)
+                                })
+                                .catch(error => {
+                                  console.error('Error al realizar la consulta:', error);
+                                });
+                            }
+
+                            function dibujarSelect(usuario) {
+                              return `
+                                <select name="rol" class="id_rol ${usuario._id}">
+                                  <option value="admin" ${usuario.rol === "admin" ? 'selected' : ''}>Admin</option>
+                                  <option value="usuario" ${usuario.rol === "usuario" ? 'selected' : ''}>Usuario</option>
+                                  <option value="invitado" ${usuario.rol === "invitado" ? 'selected' : ''}>invitado</option>
+                                </select>
+                              `;
+                            }
                             document.addEventListener('DOMContentLoaded', () => {
                                 const formUsuario = document.getElementById('form-usuario');
                                 const usuariosBody = document.getElementById('usuarios-body');
@@ -74,6 +107,7 @@
                                             <td>${usuario._id}</td>
                                             <td>${usuario.nombre}</td>
                                             <td>${usuario.correo}</td>
+                                            <td>${dibujarSelect(usuario)}</td>
                                             <td>
                                                 <button class="btn-editar" data-id="${usuario._id}">Editar</button>
                                                 <button class="btn-eliminar" data-id="${usuario._id}">Eliminar</button>
@@ -95,6 +129,24 @@
                                             cargarUsuarioParaEdicion(id);
                                         });
                                     });
+
+                                    const selects = document.querySelectorAll('.id_rol');
+                                    console.log(selects);
+                                    selects.forEach(select => {
+                                      select.addEventListener('change', function() {
+
+                                        const nuevoRol = this.value;
+                                        const usuarioId = this.classList.item(1); // Suponiendo que el ID está en la segunda clase
+                                    
+                                        console.log(`El rol del usuario ${usuarioId} ha cambiado a: ${nuevoRol}`);
+                                        if(confirm("Esta seguro de cambiar el rol del usuario?")){
+                                            consultaCambioRol(usuarioId, nuevoRol);
+                                        }else{
+                                            obtenerUsuarios();
+                                        }
+                                    
+                                      });
+                                    });
                                 };
 
                                 // Función para obtener la lista de usuarios
@@ -110,7 +162,6 @@
                                         console.error('Error al obtener usuarios:', error);
                                     }
                                 };
-
                                 // Función para obtener la lista de usuarios
                                 const obtenerUsuario = async (id) => {
                                     try {

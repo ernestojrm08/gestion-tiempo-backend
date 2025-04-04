@@ -1,4 +1,5 @@
 const Actividad = require("../modelos/Actividad");
+const Habito = require("../modelos/Habito");
 
 // Crear una nueva actividad
 const crearActividad = async (req, res) => {
@@ -86,30 +87,6 @@ const obtenerActividadesPorHabitoYRangoFechas = async (req, res) => {
     }
 };
 
-// Obtener Habitos Sin Actividades
-const obtenerHabitosSinActividades = async (req, res) => {
-    try {
-        const habitos = await Habito.aggregate([
-            {
-                $lookup: {
-                    from: "actividades",
-                    localField: "_id",
-                    foreignField: "habito",
-                    as: "actividades"
-                }
-            },
-            {
-                $match: {
-                    actividades: { $size: 0 }
-                }
-            }
-        ]);
-        res.json(habitos);
-    } catch (error) {
-        res.status(500).json({ mensaje: "Error al obtener hábitos sin actividades", error });
-    }
-};
-
 // Buscar Actividades Por Nombre
 const buscarActividadesPorNombre = async (req, res) => {
     try {
@@ -120,6 +97,48 @@ const buscarActividadesPorNombre = async (req, res) => {
         res.json(actividades);
     } catch (error) {
         res.status(500).json({ mensaje: "Error al buscar actividades por nombre", error });
+    }
+};
+
+// Actividades sin Finalizar
+const obtenerActividadesAbiertas = async (req, res) => {
+    try {
+        const actividades = await Actividad.find({ fecha_fin: { $exists: false } })
+            .populate("usuario", "nombre")
+            .populate("habito", "nombre");
+        res.json(actividades);
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al obtener actividades abiertas", error });
+    }
+};
+
+// Obtener Habitos Sin Actividades
+const obtenerHabitosSinActividades = async (req, res) => {
+    try {
+        const habitosSinActividades = await Habito.aggregate([
+            {
+                $lookup: {
+                    from: "actividades", // Asegúrate de que este sea el nombre correcto de tu colección de actividades
+                    localField: "_id",
+                    foreignField: "habito",
+                    as: "actividadesAsociadas"
+                }
+            },
+            {
+                $match: {
+                    $expr: { $eq: [ { $size: "$actividadesAsociadas" }, 0 ] }
+                }
+            },
+            {
+                $project: {
+                    actividadesAsociadas: 0 // Oculta el array de actividades en el resultado
+                }
+            }
+        ]);
+        res.json(habitosSinActividades);
+    } catch (error) {
+        console.error("Error al obtener hábitos sin actividades:", error);
+        res.status(500).json({ mensaje: "Error al obtener hábitos sin actividades", error });
     }
 };
 
@@ -141,17 +160,6 @@ const calcularTiempoPorCategoriaOProyecto = async (req, res) => {
     }
 };
 
-// Actividades sin Finalizar
-const obtenerActividadesAbiertas = async (req, res) => {
-    try {
-        const actividades = await Actividad.find({ fecha_fin: { $exists: false } })
-            .populate("usuario", "nombre")
-            .populate("habito", "nombre");
-        res.json(actividades);
-    } catch (error) {
-        res.status(500).json({ mensaje: "Error al obtener actividades abiertas", error });
-    }
-};
 
 // Actualizar una actividad
 const actualizarActividad = async (req, res) => {

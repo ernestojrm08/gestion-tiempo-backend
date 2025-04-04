@@ -13,7 +13,9 @@ const verificarToken = (req, res, next) => {
         req.usuario = decodificado; // Agrega el usuario decodificado al objeto req
         next();
     } catch (error) {
-        res.status(400).json({ mensaje: "Token inválido" });
+       // res.status(400).json({ mensaje: "Token inválido" });
+       req.flash('error',"Token inválido, vuelva a iniciar seccion");
+       return res.redirect('/error');
     }
 };
 

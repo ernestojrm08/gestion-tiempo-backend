@@ -6,7 +6,8 @@ const {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    asignarRol
 } = require("../controladores/usuarioControlador");
 
 const router = express.Router();
@@ -36,7 +37,7 @@ router.post("/", verificarToken, verificarRol(["admin"]), crearUsuario);
 router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarUsuario);
 router.delete("/:id", verificarToken, verificarRol(["admin"]), eliminarUsuario);
 // Ruta para asignar roles (solo para admin)
-router.post("/asignar-rol", verificarToken, verificarRol(["admin"]));
+router.post("/asignar-rol", verificarToken, verificarRol(["admin"]),asignarRol);
 
 router.get("/", verificarToken, obtenerUsuarios);      // Obtener todos los usuarios
 router.get("/:id", verificarToken, obtenerUsuarioPorId); // Obtener usuario por ID
