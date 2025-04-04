@@ -1,4 +1,3 @@
-console.log("eventosActividades.js carga correctamente");
 
 async function obtenerActividades() {
     try {
@@ -122,6 +121,7 @@ async function buscarActividad(){
         list_url.push({url:`/api/actividades/habitos/${habito}/actividades/${fecha_inicio}/${fecha_fin}`,status:undefined,resp:[]});
    } 
 
+
    console.log(list_url)
    list_url.forEach((consulta)=>{
     consultarRuta(consulta.url)
@@ -205,4 +205,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         actualizarTabla();
         limpiarFormulario();
     });
+
+    document.getElementById("form-actividad").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const usuario = document.getElementById("usuario").value;
+        const habito = document.getElementById("habito").value;
+        const proyecto = document.getElementById("proyecto").value;
+        const nombre = document.getElementById("nombre").value;
+        const descripcion = document.getElementById("descripcion").value;
+        const categoria = document.getElementById("categoria").value;
+        const fecha_inicio = document.getElementById("fecha_inicio").value;
+        const fecha_fin = document.getElementById("fecha_fin").value;
+        const completada = document.getElementById("completada").checked;
+    
+        const actividadData = {
+            usuario,
+            habito: habito || null,
+            proyecto: proyecto || null,
+            nombre,
+            descripcion,
+            categoria,
+            fecha_inicio,
+            fecha_fin: fecha_fin || null,
+            completada,
+        };
+    
+        if(!validarFechas("fecha_inicio", "fecha_fin") && actividadData.fecha_fin != null){
+            alert("La fecha final incorrecta, fecha final menor a fecha inicial");
+            return;
+        }
+    
+        try {
+            const response = await fetch('/api/actividades', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(actividadData),
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(`Error al crear actividad: ${error.message || response.statusText}`);
+            }
+            
+            const resp = await response.json();
+            alert(resp.mensaje);
+            await actualizarTabla();
+            limpiarFormulario();
+        } catch (error) {
+            console.error("Error al crear actividad:", error);
+            alert("Error al crear actividad: " + error.message);
+        }
+    });
+
 });

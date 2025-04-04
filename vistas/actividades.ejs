@@ -78,7 +78,7 @@
                         </label>
 
                         <div>
-                            <% if (usuario.rol === 'admin') { %>
+                            <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
                                 <button class="button_primary" type="submit" id="button_form">Agregar Actividad</button>
                             <% }  %>
                             <button class="button_primary" type="button" id="button_buscar">Buscar Actividad</button>

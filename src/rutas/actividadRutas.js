@@ -32,7 +32,7 @@ router.get("/vista",verificarToken, async (req, res) => {
 });
 
 // Solo el admin puede crear, actualizar y eliminar actividades
-router.post("/", verificarToken, verificarRol(["admin"]), crearActividad); // Crear actividad
+router.post("/", verificarToken, verificarRol(["admin", "usuario"]), crearActividad); // Crear actividad
 router.put("/:id", verificarToken, verificarRol(["admin"]), actualizarActividad); // Actualizar actividad
 router.delete("/:id", verificarToken, verificarRol(["admin"]), eliminarActividad); // Eliminar actividad
 
