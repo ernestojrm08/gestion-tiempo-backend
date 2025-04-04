@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session  = require("express-session");
 const flash = require("connect-flash");
+const methodOverride = require('method-override');
 // Importamos rutas
 const habitoRutas =  require("./rutas/habitoRutas");
 const actividadRutas = require("./rutas/actividadRutas");
@@ -15,7 +16,7 @@ const authRutas = require("./rutas/authRutas");
 const publicRutas = require("./rutas/publicRutas");
 const Usuario = require("./modelos/Usuario");
 const Actividad = require("./modelos/Actividad");
-
+const rutasRecordatorios = require('./rutas/rutasRecordatorios'); ////
 // Importar middlewares
 const { verificarToken, verificarRol } = require("./middleware/authMiddleware");
 
@@ -36,9 +37,12 @@ app.use(session({
     cookie: { maxAge: 600 }
 }));
 app.use(flash());
+app.use(express.urlencoded({ extended: true }));
 
 // Para analizar application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(methodOverride('_method'));
 
 // Para analizar application/json
 app.use(bodyParser.json());
@@ -50,19 +54,13 @@ app.set("views", path.join(__dirname, "../vistas"));
 //servir archivos estaticos
 app.use(express.static(path.join(__dirname, "./publico")));
 
-// ruta para testear
-/*
-app.get("/", (req, res) => {
-    res.send("servidor corriendo correctamente")
-});
-*/
-
 //rutas del servidor
 app.use("/api/habitos", habitoRutas);
 app.use("/api/actividades", actividadRutas);
 app.use("/api/usuarios", usuarioRutas);
 app.use("/api/auth", authRutas);
 app.use("/", publicRutas);
+app.use('/api/recordatorios', rutasRecordatorios); ////////
 
 // configuracion del puerto
 const PORT = process.env.PORT || 5000;
