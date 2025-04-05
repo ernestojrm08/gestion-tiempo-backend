@@ -69,10 +69,30 @@ const eliminarHabito = async (req, res) => {
     }
 };
 
+
+const completarHabito = async (req, res) => {
+    const habito = await Habito.findByIdAndUpdate(
+      req.params.id,
+      { estado: 'completado' },
+      { new: true }
+    );
+  
+    // Actualizar progreso en objetivos relacionados
+    const objetivos = await Objetivo.find({ habitos: habito._id });
+    await Promise.all(objetivos.map(obj => 
+      controladorObjetivos.actualizarProgreso(obj._id)
+    ));
+  
+    res.redirect('/api/habitos');
+  };
+
+
+
 module.exports = {
     crearHabito,
     obtenerHabitos,
     obtenerHabitoPorId,
     actualizarHabito,
-    eliminarHabito
+    eliminarHabito,
+    completarHabito
 };
