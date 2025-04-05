@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Objetivo</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Crear Nuevo Objetivo</h1>
+        
+        <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="/api/objetivos" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Título*</label>
+                <input type="text" name="titulo" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea name="descripcion" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Fecha Límite*</label>
+                    <input type="date" name="fechaFin" class="form-control" 
+                           min="<%= moment().format('YYYY-MM-DD') %>" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Vincular Hábitos Existentes</label>
+                <% if (typeof habitos !== 'undefined' && habitos.length > 0) { %>
+                    <select multiple class="form-select" name="habitos">
+                        <% habitos.forEach(habito => { %>
+                            <option value="<%= habito._id %>"><%= habito.nombre %></option>
+                        <% }) %>
+                    </select>
+                    <small class="text-muted">Mantén presionado Ctrl para seleccionar múltiples</small>
+                <% } else { %>
+                    <p class="text-muted">No tienes hábitos disponibles para vincular</p>
+                <% } %>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Objetivo</button>
+            <a href="/api/objetivos" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

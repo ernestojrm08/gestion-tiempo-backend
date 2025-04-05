@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Objetivo</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Editar Objetivo</h1>
+        
+        <% if (error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="/objetivos/<%= objetivo._id %>?_method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT"> 
+            <div class="mb-3">
+                <label class="form-label">Título*</label>
+                <input type="text" name="titulo" class="form-control" 
+                       value="<%= objetivo.titulo %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea name="descripcion" class="form-control" rows="3">
+                    <%= objetivo.descripcion %>
+                </textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fecha Límite*</label>
+                <input type="date" name="fechaFin" class="form-control"
+                       value="<%= moment(objetivo.fechaFin).format('YYYY-MM-DD') %>" required>
+            </div>
+
+            html
+Copy
+<div class="mb-3">
+    <label class="form-label">Hábitos vinculados</label>
+    <% if (habitos && habitos.length > 0) { %>
+        <select multiple class="form-select" name="habitos">
+            <% habitos.forEach(habito => { %>
+                <option value="<%= habito._id %>" 
+                    <%= objetivo.habitos.some(h => h._id.toString() === habito._id.toString()) ? 'selected' : '' %>>
+                    <%= habito.nombre %>
+                </option>
+            <% }) %>
+        </select>
+    <% } else { %>
+        <p class="text-muted">No hay hábitos disponibles</p>
+    <% } %>
+</div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/api/objetivos" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
