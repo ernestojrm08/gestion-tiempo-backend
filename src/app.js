@@ -16,7 +16,8 @@ const authRutas = require("./rutas/authRutas");
 const publicRutas = require("./rutas/publicRutas");
 const Usuario = require("./modelos/Usuario");
 const Actividad = require("./modelos/Actividad");
-const rutasRecordatorios = require('./rutas/rutasRecordatorios'); ////
+const rutasRecordatorios = require('./rutas/rutasRecordatorios'); 
+const tareaRutas = require("./rutas/tareaRutas");    ////
 // Importar middlewares
 const { verificarToken, verificarRol } = require("./middleware/authMiddleware");
 
@@ -60,8 +61,8 @@ app.use("/api/actividades", actividadRutas);
 app.use("/api/usuarios", usuarioRutas);
 app.use("/api/auth", authRutas);
 app.use("/", publicRutas);
-app.use('/api/recordatorios', rutasRecordatorios); ////////
-
+app.use('/api/recordatorios', rutasRecordatorios); 
+app.use("/api/tareas", tareaRutas);    ///////////
 // configuracion del puerto
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
