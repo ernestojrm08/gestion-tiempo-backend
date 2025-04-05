@@ -14,7 +14,7 @@ const crearObjetivo = async (req, res) => {
       });
   
       await nuevoObjetivo.save();
-      res.redirect('/api/objetivos');
+      res.redirect('/api/objetivos/vista');
     } catch (error) {
       
       const habitos = await Habito.find({ 
@@ -85,6 +85,7 @@ const mostrarFormularioCrear = async (req, res) => {
 
         // 2. Renderizar vista con los datos necesarios
         res.render('objetivos/crear', {
+            usuario: req.usuario,
             habitos: habitos || [], // Asegurar array aunque esté vacío
             moment: require('moment'),
             error: null // Inicializar variable de error
@@ -147,6 +148,7 @@ const mostrarFormularioEditar = async (req, res) => {
     // Renderizar con error inicialmente como null/false
     res.render('objetivos/editar', {
       objetivo,
+      usuario: req.usuario,
       habitos: habitos || [],
       moment: require('moment'),
       error: null
@@ -201,7 +203,7 @@ const actualizarObjetivo = async (req, res) => {
       return res.status(404).send('Objetivo no encontrado');
     }
 
-    res.redirect('/api/objetivos');
+    res.redirect('/api/objetivos/vista');
   } catch (error) {
     console.error("Error al actualizar objetivo:", error);
     res.status(500).render('objetivos/editar', {
@@ -223,9 +225,9 @@ const eliminarObjetivo = async (req, res) => {
       return res.status(404).send('Objetivo no encontrado');
     }
 
-    res.redirect('/api/objetivos');
+    res.redirect('/api/objetivos/vista');
   } catch (error) {
-    res.status(500).redirect('/objetivos');
+    res.status(500).redirect('/objetivos/vista');
   }
 };
 

@@ -2,58 +2,86 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Objetivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetivo</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Editar Objetivo</h1>
-        
-        <% if (error) { %>
-            <div class="alert alert-danger"><%= error %></div>
-        <% } %>
-
-        <form action="/api/objetivos/<%= objetivo._id %>?_method=PUT" method="POST">
+    <div>
+        <%- include("./../layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                     <h1>Editar Objetivo</h1>
+                     
+                     <% if (error) { %>
+                         <div class="alert alert-danger"><%= error %></div>
+                     <% } %>
+             
+        <form action="/api/objetivos/<%= objetivo._id %>?_method=PUT" method="POST" id="form-actividad">
             <input type="hidden" name="_method" value="PUT"> 
-            <div class="mb-3">
+            <div>
                 <label class="form-label">Título*</label>
                 <input type="text" name="titulo" class="form-control" 
                        value="<%= objetivo.titulo %>" required>
             </div>
 
-            <div class="mb-3">
+            <div >
                 <label class="form-label">Descripción</label>
                 <textarea name="descripcion" class="form-control" rows="3">
                     <%= objetivo.descripcion %>
                 </textarea>
             </div>
 
-            <div class="mb-3">
+            <div >
                 <label class="form-label">Fecha Límite*</label>
                 <input type="date" name="fechaFin" class="form-control"
                        value="<%= moment(objetivo.fechaFin).format('YYYY-MM-DD') %>" required>
             </div>
 
-            html
-Copy
-<div class="mb-3">
-    <label class="form-label">Hábitos vinculados</label>
-    <% if (habitos && habitos.length > 0) { %>
-        <select multiple class="form-select" name="habitos">
-            <% habitos.forEach(habito => { %>
-                <option value="<%= habito._id %>" 
-                    <%= objetivo.habitos.some(h => h._id.toString() === habito._id.toString()) ? 'selected' : '' %>>
-                    <%= habito.nombre %>
-                </option>
-            <% }) %>
-        </select>
-    <% } else { %>
-        <p class="text-muted">No hay hábitos disponibles</p>
-    <% } %>
-</div>
+            <div >
+                <label class="form-label">Hábitos vinculados</label>
+                <% if (habitos && habitos.length > 0) { %>
+                    <select multiple class="form-select" name="habitos">
+                        <% habitos.forEach(habito => { %>
+                            <option value="<%= habito._id %>" 
+                                <%= objetivo.habitos.some(h => h._id.toString() === habito._id.toString()) ? 'selected' : '' %>>
+                                <%= habito.nombre %>
+                            </option>
+                        <% }) %>
+                    </select>
+                <% } else { %>
+                    <p class="text-muted">No hay hábitos disponibles</p>
+                <% } %>
+            </div>
 
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            <a href="/api/objetivos" class="btn btn-secondary">Cancelar</a>
+            <button type="submit"
+             style="height: 2rem; margin: auto;"
+            >Guardar Cambios</button>
         </form>
-    </div>
+        <a href="/api/objetivos/vista"> <button type="button">Cancelar</button></a>
+</div>
+</div>
+</section>
+</main>
+
+<%- include("./../layout/footer"); %>
+<script type="module" src="/js/dashboard/linkNavActive.js"></script>
 </body>
 </html>

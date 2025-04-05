@@ -14,8 +14,13 @@
                 <% if (usuario.rol === 'admin') { %>
                     <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
                 <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
                 <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
-                <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
             </ul>
         </nav>
     </div>
@@ -29,9 +34,11 @@
                         <input type="text" id="nombre" name="nombre" placeholder="Nombre del Hábito" required>
                         <input type="text" id="descripcion" name="descripcion" placeholder="Descripción del Hábito">
                         <input type="text" id="id_habito" placeholder="ID (buscar)">
-                        <button type="submit" id="button_form">Agregar Hábito</button>
-                        <button type="button" id="buscar_habito">Buscar Hábito</button>
-                        <button type="button" id="cancelar-edicion" style="display:none;">Limpiar Formulario</button>
+                        <div>
+                            <button type="submit" id="button_form">Agregar Hábito</button>
+                            <button type="button" id="buscar_habito">Buscar Hábito</button>
+                            <button type="button" id="cancelar-edicion" style="display:none;">Limpiar Formulario</button>
+                        </div>
                     </form>
                     <div class="contenerdor_tabla">
                         <table>
@@ -40,7 +47,7 @@
                                     <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
-                                    <th>Acciones</th>
+                                    <th class="action_buttom_table">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="habitos-body">
@@ -50,8 +57,8 @@
                                         <td><%= habito.nombre %></td>
                                         <td><%= habito.descripcion %></td>
                                         <td>
-                                            <button class="delete_button" data-id="<%= habito._id %>">Eliminar</button>
-                                            <button class="edit_button" data-id="<%= habito._id %>">Editar</button>
+                                            <button class="delete_button" data-id="<%= habito._id %>">🗑️</button>
+                                            <button class="edit_button" data-id="<%= habito._id %>">✏️</button>
                                         </td>
                                     </tr>
                                 <% }); %>
@@ -280,5 +287,6 @@
             })
         });
     </script>
+    <script type="module" src="/js/dashboard/linkNavActive.js"></script>
 </body>
 </html>

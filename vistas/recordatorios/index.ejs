@@ -1,16 +1,80 @@
-<h1>Mis Recordatorios</h1>
-<a href="/api/recordatorios/crear">Nuevo Recordatorio</a>
-<ul>
-    <% recordatorios.forEach(recordatorio => { %>
-        <li>
-          <h3><%= recordatorio.titulo %></h3>
-          <p><%= recordatorio.descripcion %></p>
-          <p>Fecha: <%= recordatorio.fechaVencimiento.toLocaleString() %></p>
-          <p>Prioridad: <%= recordatorio.prioridad %></p>
-          <a href="/api/recordatorios/<%= recordatorio._id %>/editar">Editar</a>
-          <form action="/api/recordatorios/<%= recordatorio._id %>?_method=DELETE" method="POST">
-            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este recordatorio?')">Eliminar</button>
-          </form>
-        </li>
-      <% }) %>
-    </ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recordatorio</title>
+    <link rel="stylesheet" href="/css/style.css">
+  
+</head>
+<body>
+    <div>
+        <%- include("./../layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <h1>Mis Recordatorios</h1>
+                    <a href="/api/recordatorios/crear">
+                        <button type="button">Nuevo Recordatorio</button>
+                    </a>
+                    <div class="contenerdor_tabla">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Descripcion</th>
+                                    <th>fecha Vencimiento</th>
+                                    <th>Prioridad</th>
+                                    <th class="action_buttom_table" >Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actividades-body">
+                                <% recordatorios.forEach(recordatorio => { %>
+                                    <tr>
+                                        <td><%= recordatorio.titulo %></td>
+                                        <td><%= recordatorio.descripcion %></td>
+                                        <td>Fecha: <%= recordatorio.fechaVencimiento.toLocaleString() %></td>
+                                        <td>Prioridad: <%= recordatorio.prioridad %></td>
+                                        </td>
+                                        <td>
+                                            <div style="display: inline-block;">
+                                                <a href="/api/recordatorios/<%= recordatorio._id %>/editar">
+                                                    <button   class="edit_button" title="editar" type="button">✏️</button>    
+                                                </a>
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <form action="/api/recordatorios/<%= recordatorio._id %>?_method=DELETE" method="POST">
+                                                    <button class="delete_button" title="eliminar"  type="submit" onclick="return confirm('¿Estás seguro de eliminar este recordatorio?')">🗑️</button>
+                                                  </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+</main>
+
+<%- include("./../layout/footer"); %>
+<script type="module" src="/js/dashboard/linkNavActive.js"></script>
+</body>
+</html>

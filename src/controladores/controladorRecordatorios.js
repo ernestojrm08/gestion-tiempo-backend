@@ -3,7 +3,7 @@ const Recordatorio = require('../modelos/Recordatorio');
 const obtenerRecordatorios = async (req, res) => {
   try {
     const recordatorios = await Recordatorio.find({ usuario: req.usuario.id }).sort({ fechaVencimiento: 1 });
-    res.render('recordatorios/index', { recordatorios });
+    res.render('recordatorios/index', { recordatorios,usuario:req.usuario });
   } catch (error) {
     res.status(500).send('Error al cargar recordatorios');
   }
@@ -36,7 +36,8 @@ const crearRecordatorio = async (req, res) => {
 
 
 const mostrarFormularioCrear = (req, res) => {
-  res.render('recordatorios/crear');
+
+  res.render('recordatorios/crear',{usuario:req.usuario});
 };
 
 
@@ -45,11 +46,11 @@ const mostrarFormularioEditar = async (req, res) => {
   try {
     const recordatorio = await Recordatorio.findById(req.params.id);
     if (!recordatorio) {
-      return res.render("recordatorios/editar", { error: "Recordatorio no encontrado", recordatorio: {} });
+      return res.render("recordatorios/editar", { error: "Recordatorio no encontrado", recordatorio: {},usuario:req.usuario });
     }
-    res.render("recordatorios/editar", { recordatorio, error: null });
+    res.render("recordatorios/editar", { recordatorio, error: null ,usuario:req.usuario});
   } catch (error) {
-    res.render("recordatorios/editar", { error: "Error al cargar el formulario de edición", recordatorio: {} });
+    res.render("recordatorios/editar", { error: "Error al cargar el formulario de edición", recordatorio: {} ,usuario:req.usuario});
   }
 };
 

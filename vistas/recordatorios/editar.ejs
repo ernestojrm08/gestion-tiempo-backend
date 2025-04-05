@@ -1,17 +1,56 @@
-<h1>Editar Recordatorio</h1>
-<% if (typeof error !== "undefined" && error) { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
-  <form action="/api/recordatorios/<%= recordatorio._id %>?_method=PUT" method="POST">
-    <input type="text" name="titulo" value="<%= recordatorio.titulo %>" required>
-    <input type="text" name="descripcion" value="<%= recordatorio.descripcion %>" required>
-    <input type="date" name="fechaVencimiento" value="<%= recordatorio.fechaVencimiento %>" required>
-    <select name="prioridad">
-      <option value="alta" <%= recordatorio.prioridad === 'alta' ? 'selected' : '' %>>Alta</option>
-      <option value="media" <%= recordatorio.prioridad === 'media' ? 'selected' : '' %>>Media</option>
-      <option value="baja" <%= recordatorio.prioridad === 'baja' ? 'selected' : '' %>>Baja</option>
-    </select>
-    <button type="submit">Actualizar</button>
-  </form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Actividades</title>
+    <link rel="stylesheet" href="/css/style.css">
   
-<a href="/api/recordatorios">Cancelar</a>
+</head>
+<body>
+    <div>
+        <%- include("./../layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <h1>Editar Recordatorio</h1>
+                    <% if (typeof error !== "undefined" && error) { %>
+                        <p style="color: red;"><%= error %></p>
+                      <% } %>
+                      <form action="/api/recordatorios/<%= recordatorio._id %>?_method=PUT" method="POST" id="form-actividad">
+                        <input type="text" name="titulo" value="<%= recordatorio.titulo %>" required>
+                        <input type="text" name="descripcion" value="<%= recordatorio.descripcion %>" required>
+                        <input type="date" name="fechaVencimiento" value="<%= recordatorio.fechaVencimiento %>" required>
+                        <select name="prioridad" class="input_select">
+                          <option value="alta" <%= recordatorio.prioridad === 'alta' ? 'selected' : '' %>>Alta</option>
+                          <option value="media" <%= recordatorio.prioridad === 'media' ? 'selected' : '' %>>Media</option>
+                          <option value="baja" <%= recordatorio.prioridad === 'baja' ? 'selected' : '' %>>Baja</option>
+                        </select>
+                        <button type="submit">Actualizar</button>
+                      </form>
+                      <a href="/api/recordatorios"> <button type="button">Cancelar</button></a>
+                </div>
+            </div>
+        </section>
+</main>
+
+<%- include("./../layout/footer"); %>
+<script type="module" src="/js/dashboard/linkNavActive.js"></script>
+</body>
+</html>

@@ -49,6 +49,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    function limpiarFormulario() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("fecha_inicio").value = "";
+        document.getElementById("fecha_fin").value = "";
+        document.getElementById("estado").value = "";
+        document.getElementById("actividad").value = "";
+        document.getElementById("prioridad").value = "";
+    }
+    
+
     // 📡 Obtener tareas y llenar la tabla
     const cargarTareas = async () => {
         try {
@@ -69,14 +80,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${t.usuario?.nombre || 'Desconocido'}</td>
                     <td>${t.actividad?.nombre || 'Ninguna'}</td>
                     <td>${t.prioridad || 'Media'}</td>
-    <td>
-        <button class="editar-btn" data-id="${t._id}">✏️</button>
-        <button class="eliminar-btn" data-id="${t._id}">🗑️</button>
-    </td>
+                    <td>
+                        <button class="edit_button" title="editar" data-id="${t._id}">✏️</button>
+                        <button class="delete_button" title="eliminar" data-id="${t._id}">🗑️</button>
+                    </td>
                 `;
                 tareasBody.appendChild(tr);
 
-                tr.querySelector('.editar-btn').addEventListener('click', () => {
+                tr.querySelector('.edit_button').addEventListener('click', () => {
                     document.getElementById('tarea-id').value = t._id;
                     document.getElementById('nombre').value = t.nombre;
                     document.getElementById('descripcion').value = t.descripcion;
@@ -89,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             
                 // Botón eliminar
-                tr.querySelector('.eliminar-btn').addEventListener('click', async () => {
+                tr.querySelector('.delete_button').addEventListener('click', async () => {
                     if (!confirm("¿Estás seguro de eliminar esta tarea?")) return;
             
                     try {
@@ -156,4 +167,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await cargarUsuarios();
     await cargarActividades();
     await cargarTareas();
+
+    document.getElementById("button_limpiar").addEventListener("click", ()=>{
+        limpiarFormulario();
+    });
 });

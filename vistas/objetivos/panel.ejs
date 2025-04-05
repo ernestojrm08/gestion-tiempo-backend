@@ -3,29 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Objetivos Semanales</title>
+    <title>Objetivo</title>
+    <link rel="stylesheet" href="/css/style.css">
+  
 </head>
 <body>
+    <div>
+        <%- include("./../layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
     <div class="container py-4">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+             <!-- Header -->
             <h1 class="display-4">Mis Objetivos Semanales</h1>
-            <a href="/api/objetivos/crear" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle"></i> Nuevo Objetivo
-            </a>
-        </div>
+    
+            <!-- Filtros -->
+            <div class="filtros_objetivos" class="form_general" id="form-usuario"> 
+                <input type="text" class="form-control" id="buscador" placeholder="Buscar objetivos..." >
 
-        <!-- Filtros -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <select class="form-select" id="filtroEstado">
+                <select  class="input_select" id="filtroEstado" style="margin: auto;">
                     <option value="todos">Todos los objetivos</option>
                     <option value="activos">En progreso</option>
                     <option value="completados">Completados</option>
                 </select>
-            </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control" id="buscador" placeholder="Buscar objetivos...">
+
+                <a href="/api/objetivos/crear" class="btn btn-primary btn-lg">
+                    <button>Nuevo Objetivo </button> 
+                </a>
             </div>
         </div>
 
@@ -35,97 +56,107 @@
                 No tienes objetivos creados. <a href="/api/objetivos/crear">Crea tu primer objetivo</a> para comenzar.
             </div>
         <% } else { %>
-            <% objetivos.forEach(objetivo => { %>
-                <div class="card objetivo-card" data-progreso="<%= objetivo.progreso %>">
-                    <div class="card-header bg-light">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3 class="mb-0"><%= objetivo.titulo %></h3>
-                            <span class="badge bg-<%= objetivo.progreso === 100 ? 'success' : 'primary' %>">
-                                <%= objetivo.diasRestantes > 0 ? `${objetivo.diasRestantes} días restantes` : '¡Fecha límite hoy!' %>
-                            </span>
-                        </div>
-                        <small class="text-muted">
-                            <%= moment(objetivo.fechaInicio).format('DD/MM') %> - <%= moment(objetivo.fechaFin).format('DD/MM/YYYY') %>
-                        </small>
-                    </div>
-                    
-                    <div class="card-body">
-                        <% if (objetivo.descripcion) { %>
-                            <p class="card-text"><%= objetivo.descripcion %></p>
-                        <% } %>
-
-                        <!-- Barra de Progreso -->
-                        <div class="progress mb-3" style="height: 25px;">
-                            <div class="progress-bar progress-bar-striped <%= objetivo.progreso === 100 ? 'bg-success' : '' %>" 
-                                role="progressbar" 
-                                style="width: <%= objetivo.progreso %>%"
-                                aria-valuenow="<%= objetivo.progreso %>" 
-                                aria-valuemin="0" 
-                                aria-valuemax="100">
-                                <%= objetivo.progreso %>%
-                            </div>
-                        </div>
-
-                        <!-- Contenido en 2 columnas -->
-                        <div class="row">
-                            <!-- Columna de Hábitos -->
-                            <div class="col-md-6">
-                                <h5><i class="bi bi-check-circle"></i> Hábitos vinculados</h5>
-                                <% if (objetivo.habitos.length > 0) { %>
-                                    <ul class="list-group">
-                                        <% objetivo.habitos.forEach(habito => { %>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center <%= habito.estado === 'completado' ? 'habito-completado' : '' %>">
-                                                <%= habito.nombre %>
-                                                <span class="badge bg-<%= habito.estado === 'completado' ? 'success' : 'secondary' %>">
-                                                    <%= habito.estado === 'completado' ? 'Completado' : 'Pendiente' %>
-                                                </span>
-                                            </li>
-                                        <% }) %>
-                                    </ul>
-                                <% } else { %>
-                                    <p class="text-muted">No hay hábitos vinculados</p>
-                                <% } %>
-                            </div>
-
-                            <!-- Columna de Acciones -->
-                            <div class="col-md-6">
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <a href="/api/objetivos/<%= objetivo._id %>/editar" class="btn btn-warning me-md-2">
-                                        <i class="bi bi-pencil"></i> Editar
-                                    </a>
-                                    <form action="/api/objetivos/<%= objetivo._id %>?_method=DELETE" method="POST" class="d-inline">
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar este objetivo permanentemente?')">
-                                            <i class="bi bi-trash"></i> Eliminar
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <!-- Vinculación rápida -->
-                                <div class="mt-3">
-                                    <h5>Vincular elementos</h5>
-                                    <div class="input-group mb-3">
-                                        <select class="form-select" id="habito-<%= objetivo._id %>">
-                                            <option value="">Seleccionar hábito</option>
-                                            <% habitosDisponibles.forEach(habito => { %>
-                                                <option value="<%= habito._id %>"><%= habito.nombre %></option>
-                                            <% }) %>
-                                        </select>
-                                        <button class="btn btn-outline-secondary" type="button" id="vincular-<%= objetivo._id %>">
-                                            Vincular
-                                        </button>
-                                        
-                                        <script>
-                                        document.getElementById(`vincular-<%= objetivo._id %>`).addEventListener('click', () => {
-                                            vincularHabito('<%= objetivo._id %>');
-                                        });
-                                        </script>
+            <div class="contenerdor_tabla">
+                <table style="width: 995px;">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Descripcion</th>
+                            <th>Progreso</th>
+                            <th>Hábitos vinculados</th>
+                            <th>Vincular elementos</th>
+                            <th class="action_buttom_table" >Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="actividades-body">
+                        <% objetivos.forEach(objetivo => { %>
+                            <tr class="card objetivo-card" data-progreso="<%= objetivo.progreso %>">
+                                <td>
+                                    <div class="card-header bg-light">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3 class="mb-0"><%= objetivo.titulo %></h3>
+                                            <span class="badge bg-<%= objetivo.progreso === 100 ? 'success' : 'primary' %>">
+                                                <%= objetivo.diasRestantes > 0 ? `${objetivo.diasRestantes} días restantes` : '¡Fecha límite hoy!' %>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted">
+                                            <%= moment(objetivo.fechaInicio).format('DD/MM') %> - <%= moment(objetivo.fechaFin).format('DD/MM/YYYY') %>
+                                        </small>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% }) %>
+                                </td>
+                                <td>
+                                    <% if (objetivo.descripcion) { %>
+                                        <p class="card-text"><%= objetivo.descripcion %></p>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <!-- Barra de Progreso -->
+                                    <div class="progress mb-3" style="height: 25px;">
+                                         <div class="progress-bar progress-bar-striped <%= objetivo.progreso === 100 ? 'bg-success' : '' %>" 
+                                            role="progressbar" 
+                                            style="width: <%= objetivo.progreso %>%"
+                                            aria-valuenow="<%= objetivo.progreso %>" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
+                                            <%= objetivo.progreso %>%
+                                        </div>
+                                     </div>
+                                </td>
+                                <td>
+                                    <!-- Columna de Hábitos -->
+                                    <h5> Hábitos vinculados</h5>
+                                            <% if (objetivo.habitos.length > 0) { %>
+                                                <ul class="list-group">
+                                                    <% objetivo.habitos.forEach(habito => { %>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center <%= habito.estado === 'completado' ? 'habito-completado' : '' %>">
+                                                            <%= habito.nombre %>
+                                                            <span class="badge bg-<%= habito.estado === 'completado' ? 'success' : 'secondary' %>">
+                                                                <%= habito.estado === 'completado' ? 'Completado' : 'Pendiente' %>
+                                                            </span>
+                                                        </li>
+                                                    <% }) %>
+                                                </ul>
+                                            <% } else { %>
+                                                <p class="text-muted">No hay hábitos vinculados</p>
+                                            <% } %>
+                                </td>
+                                 <td>
+                                    <!-- Vinculación rápida -->
+                                    <div class="mt-3">
+                                        <h5>Vincular elementos</h5>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" id="habito-<%= objetivo._id %>">
+                                                <option value="">Seleccionar hábito</option>
+                                                <% habitosDisponibles.forEach(habito => { %>
+                                                    <option value="<%= habito._id %>"><%= habito.nombre %></option>
+                                                <% }) %>
+                                            </select>
+                                            <button class="btn btn-outline-secondary" type="button" id="vincular-<%= objetivo._id %>">
+                                                Vincular
+                                            </button>
+                                            
+                                            <script>
+                                            document.getElementById(`vincular-<%= objetivo._id %>`).addEventListener('click', () => {
+                                                vincularHabito('<%= objetivo._id %>');
+                                            });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <!-- Columna de Acciones -->
+                                    <a href="/api/objetivos/<%= objetivo._id %>/editar" style="display: inline-block;">
+                                        <button class="edit_button" title="editar">✏️</button> 
+                                   </a>
+                                   <form action="/api/objetivos/<%= objetivo._id %>?_method=DELETE" method="POST"  style="display: inline-block;">
+                                       <button class="delete_button" title="eliminar" type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar este objetivo permanentemente?')">🗑️</button>
+                                   </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
         <% } %>
     </div>
     
@@ -135,7 +166,7 @@
         document.getElementById('filtroEstado').addEventListener('change', function() {
             const filtro = this.value;
             const objetivos = document.querySelectorAll('.objetivo-card');
-            
+            console.log(objetivos);
             objetivos.forEach(objetivo => {
                 const progreso = parseInt(objetivo.dataset.progreso);
                 const mostrar = 
@@ -143,7 +174,7 @@
                     (filtro === 'activos' && progreso < 100) ||
                     (filtro === 'completados' && progreso === 100);
                 
-                objetivo.style.display = mostrar ? 'block' : 'none';
+                objetivo.style.display = mostrar ? 'table-row' : 'none';
             });
         });
 
@@ -154,7 +185,7 @@
             
             objetivos.forEach(objetivo => {
                 const titulo = objetivo.querySelector('h3').textContent.toLowerCase();
-                objetivo.style.display = titulo.includes(texto) ? 'block' : 'none';
+                objetivo.style.display = titulo.includes(texto) ? 'table-row' : 'none';
             });
         });
 
@@ -195,5 +226,12 @@
             fetch('/objetivos/webhook/progreso', { method: 'POST' });
         }, 300000);
     </script>
+                </div>
+            </div>
+        </section>
+</main>
+
+<%- include("./../layout/footer"); %>
+<script type="module" src="/js/dashboard/linkNavActive.js"></script>
 </body>
 </html>

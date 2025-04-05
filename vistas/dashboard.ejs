@@ -14,8 +14,13 @@
                 <% if (usuario.rol === 'admin') { %>
                     <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
                 <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
                 <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
-                <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
             </ul>
         </nav>
     </div>

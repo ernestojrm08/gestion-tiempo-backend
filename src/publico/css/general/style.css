@@ -106,7 +106,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  max-width: 1080px;
+  max-width: 680px;
 }
 
 #form-habito input[type="text"],
@@ -226,6 +226,7 @@ footer {
 .menu button:hover{
   background-color: rgb(0, 60, 181);
   color:#e0f2f7;
+  border: rgb(0, 60, 181);
 }
 
 .informacion{
@@ -400,4 +401,69 @@ tr,th, td {
 }
 .contenerdor_tabla{
   margin-top: 0.5rem;
+}
+.action_buttom_table{
+  width: 10rem;
+}
+.btn-editar,
+.btn-eliminar,
+.edit_button,
+.delete_button{
+  /*width: 65.15px;*/
+  width: 65px;
+  background-color: #ffffff;
+  border: 1.5px solid black;
+}
+#contenido-principal{
+  background: azure;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.form_general{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1080px;
+  margin-bottom: 20px;
+  gap: 0rem 2rem;
+}
+
+.form_general input,
+.form_general textarea,
+.form_general button,
+.form_general .input_select{
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form_general textarea {
+  resize: none; /* Permite redimensionar verticalmente */
+  height: 22px;
+  width: 180px;
+}
+
+.form_general button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.form_general button:hover {
+  background-color: #0056b3;
+}
+
+.form_general input[type="checkbox"] {
+  align-self: flex-start; /* Alinea el checkbox al inicio del flex container */
+  margin-right: 5px;
+}
+
+.form_general label {
+  display: flex;
+  align-items: center; /* Alinea el texto del label con el checkbox */
+}
+.menu_ul li a.active {
+  font-weight: bold;
+  color: blue; /* Ejemplo de estilo para el link activo */
 }

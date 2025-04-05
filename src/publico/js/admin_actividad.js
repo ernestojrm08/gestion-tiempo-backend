@@ -146,8 +146,8 @@ function dibujarTabla(actividades){
             <td>${actividad._id}</td>
             <td>${actividad.usuario ? actividad.usuario.nombre : "N/A"}</td>
             <td>
-                <button class="delete_button" id_delete="${actividad._id}">Eliminar</button>
-                <button class="edit_button" id_edit="${actividad._id}">Editar</button>
+                <button class="delete_button" title="eliminar" id_delete="${actividad._id}">🗑️</button>
+                <button class="edit_button" title="editar"  id_edit="${actividad._id}">✏️</button>
             </td>
             <td>${actividad.habito ? actividad.habito.nombre : "N/A"}</td>
             <td>${actividad.proyecto || "N/A"}</td>

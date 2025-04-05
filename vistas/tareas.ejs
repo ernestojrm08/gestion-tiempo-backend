@@ -2,69 +2,97 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tareas</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Gestión de Tareas</h1>
-    <form action="/api/tareas" method="POST"></form>
-
-    <form id="form-tarea">
-        <input type="hidden" id="tarea-id">
-
-        <label>Nombre:</label>
-        <input type="text" id="nombre" required>
-
-        <label>Descripción:</label>
-        <textarea id="descripcion"></textarea>
-
-        <label for="fecha_inicio">Fecha de Inicio:</label>
-        <input type="datetime-local" id="fecha_inicio" required>
-
-        <label for="fecha_fin">Fecha de Fin (opcional):</label>
-        <input type="datetime-local" id="fecha_fin">
-
-        <label>Estado:</label>
-        <select id="estado" required>
-            <option value="pendiente">Pendiente</option>
-            <option value="completada">Completada</option>
-        </select>
-
-        <label>Usuario:</label>
-        <select id="usuario" required></select>
-
-        <label>Actividad (opcional):</label>
-        <select id="actividad"></select>
-
-        <label for="prioridad">Prioridad:</label>
-    <select id="prioridad" class="form-control">
-      <option value="Alta">Alta</option>
-      <option value="Media" selected>Media</option>
-      <option value="Baja">Baja</option>
-    </select>
-
-        <button type="submit">Agregar Tarea</button>
-        
-    </form>
-
-    <h2>Lista de Tareas</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado</th>
-                <th>Usuario</th>
-                <th>Actividad</th>
-                <th>Prioridad</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tareas-body"></tbody>
-    </table>
-
+    <div>
+        <%- include("./layout/header_admin",{usuario:usuario}); %>
+        <nav class="menu">
+            <ul class="menu_ul">
+                <% if (usuario.rol === 'admin') { %>
+                    <li><a href="/api/usuarios/vista" id="crud_user">Usuarios</a></li>
+                <% } %>
+                <% if (usuario.rol === 'admin' || usuario.rol === 'usuario') { %>
+                    <li><a href="/api/tareas/vista" id="crud_tareas">Tareas</a></li>
+                    <li><a href="/api/objetivos/vista" id="crud_objetivos">Objetivos</a></li>
+                    <li><a href="/api/recordatorios/vista" id="crud_recordatorio">Recordatorio</a></li>
+                    <li><a href="/api/habitos/vista" id="crud_habitos">Hábitos</a></li>
+                <% } %>
+                <li><a href="/api/actividades/vista" id="crud_actividades">Actividades</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="contariner__dashboard">
+                <div id="contenido-principal">
+                    <h1>Gestión de Tareas</h1>
+                    <form action="/api/tareas" method="POST"></form>
+                
+                    <form id="form-tarea" class="form_general">
+                        <input type="hidden" id="tarea-id">
+                
+                        <label>Nombre:</label>
+                        <input type="text" id="nombre" required>
+                
+                        <label>Descripción:</label>
+                        <textarea id="descripcion"></textarea>
+                
+                        <label for="fecha_inicio">Fecha de Inicio:</label>
+                        <input type="datetime-local" id="fecha_inicio" required>
+                
+                        <label for="fecha_fin">Fecha de Fin (opcional):</label>
+                        <input type="datetime-local" id="fecha_fin">
+                
+                        <label>Estado:</label>
+                        <select id="estado" required class="input_select">
+                            <option value="pendiente">Pendiente</option>
+                            <option value="completada">Completada</option>
+                        </select>
+                
+                        <label>Usuario:</label>
+                        <select id="usuario" required class="input_select"></select>
+                
+                        <label>Actividad (opcional):</label>
+                        <select id="actividad" class="input_select"></select>
+                
+                        <label for="prioridad">Prioridad:</label>
+                         <select id="prioridad"  class="input_select">
+                           <option value="Alta">Alta</option>
+                           <option value="Media" selected>Media</option>
+                           <option value="Baja">Baja</option>
+                         </select>
+                
+                        <button type="submit">Agregar Tarea</button>
+                        <button class="button_primary" type="button" id="button_limpiar">Limpiar Formulario</button>
+                    </form>
+                
+                    <h2>Lista de Tareas</h2>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Estado</th>
+                                <th>Usuario</th>
+                                <th>Actividad</th>
+                                <th>Prioridad</th>
+                                <th class="action_buttom_table" >Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tareas-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include("./layout/footer"); %>
     <script type="module" src="/js/admin_tarea.js"></script>
+    <script type="module" src="/js/dashboard/linkNavActive.js"></script>
 </body>
 </html>
 
