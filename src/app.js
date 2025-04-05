@@ -19,6 +19,7 @@ const Actividad = require("./modelos/Actividad");
 const rutasRecordatorios = require('./rutas/rutasRecordatorios'); ////
 const rutasObjetivos = require('./rutas/rutasObjetivos');
 
+const tareaRutas = require("./rutas/tareaRutas");    ////
 // Importar middlewares
 const { verificarToken, verificarRol } = require("./middleware/authMiddleware");
 
@@ -65,6 +66,7 @@ app.use("/", publicRutas);
 app.use('/api/recordatorios', rutasRecordatorios); ////////
 app.use('/api/objetivos', rutasObjetivos);
 
+app.use("/api/tareas", tareaRutas);    ///////////
 // configuracion del puerto
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
