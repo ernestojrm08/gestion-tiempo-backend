@@ -18,7 +18,6 @@ const Usuario = require("./modelos/Usuario");
 const Actividad = require("./modelos/Actividad");
 const rutasRecordatorios = require('./rutas/rutasRecordatorios'); ////
 const rutasObjetivos = require('./rutas/rutasObjetivos');
-
 const tareaRutas = require("./rutas/tareaRutas");    ////
 // Importar middlewares
 const { verificarToken, verificarRol } = require("./middleware/authMiddleware");

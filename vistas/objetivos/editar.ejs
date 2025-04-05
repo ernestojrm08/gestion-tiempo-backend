@@ -12,7 +12,7 @@
             <div class="alert alert-danger"><%= error %></div>
         <% } %>
 
-        <form action="/objetivos/<%= objetivo._id %>?_method=PUT" method="POST">
+        <form action="/api/objetivos/<%= objetivo._id %>?_method=PUT" method="POST">
             <input type="hidden" name="_method" value="PUT"> 
             <div class="mb-3">
                 <label class="form-label">Título*</label>

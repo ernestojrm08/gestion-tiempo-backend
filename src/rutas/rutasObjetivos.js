@@ -15,7 +15,7 @@ router.get('/crear', verificarToken, controlador.mostrarFormularioCrear);
 router.post('/', verificarToken, controlador.crearObjetivo);
 router.post('/:id/vincular', verificarToken, controlador.vincularHabito); ////
 router.get('/:id/editar', verificarToken, controlador.mostrarFormularioEditar);
-router.put('/:id', verificarToken, controlador.actualizarObjetivo);
+router.put('/:id',  controlador.actualizarObjetivo);
 router.delete('/:id', verificarToken, controlador.eliminarObjetivo);
 
 // Webhook para actualización automática
