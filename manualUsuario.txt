@@ -1,0 +1,110 @@
+📖 Manual de Usuario – Sistema de Gestión de Hábitos, Objetivos, Tareas y Recordatorios
+🎯 Objetivo: Esta plataforma permite gestionar de forma integral los hábitos, objetivos, tareas y recordatorios del usuario, promoviendo la productividad y el cumplimiento de metas personales.
+
+🧑‍🏫 1. Requisitos Previos
+Cuenta registrada.
+
+Conexión a internet estable.
+
+Navegador actualizado (Chrome, Firefox, Edge).
+
+🔐 2. Acceso al Sistema
+
+Registro de Usuario
+Completa el formulario de registro con nombre, correo y contraseña.
+
+Inicio de Sesión
+Introduce tus credenciales para acceder al sistema.
+
+✅ 3. Módulo de Actividades / Tareas
+
+Crear Nueva Actividad
+Ir a la sección Tareas.
+
+Presiona Agregar Actividad.
+
+Completa los campos:
+
+Usuario
+
+Nombre y descripción de la tarea
+
+Categoría
+
+Fecha de inicio y fin
+
+Hábito o proyecto asociado (opcional)
+
+Clic en Guardar.
+
+Buscar Actividades – 🔍 Búsqueda Avanzada
+Puedes filtrar tareas utilizando múltiples parámetros:
+
+Usuario
+
+Hábito asociado
+
+Proyecto
+
+Nombre de actividad
+
+Fecha de inicio y/o fin
+
+Categoría
+
+Estado (completada o no)
+
+ID
+
+🔄 También puedes limpiar los filtros con el botón Limpiar Formulario.
+
+Marcar como Completada
+Usa el checkbox o acción correspondiente para cambiar el estado de la tarea.
+
+Editar / Eliminar
+Iconos de ✏️ (editar) y 🗑️ (eliminar) disponibles en cada fila de la tabla.
+
+📌 4. Módulo de Recordatorios
+Crear Recordatorio
+Dirígete a Recordatorios.
+
+Presiona Nuevo Recordatorio.
+
+Completa:
+
+-Título
+
+-Descripción
+
+-Fecha y hora
+
+-Prioridad: Alta, Media o Baja ✅
+
+ Esto permite ordenar los recordatorios según su urgencia.
+
+🎯 5. Módulo de Objetivos y Hábitos
+
+Define objetivos personales y desglósalos en tareas.
+
+Agrega hábitos recurrentes.
+
+Relaciona tareas a hábitos para seguimiento de progreso.
+
+📊 6. Funciones Extra
+
+Dashboard general con tareas, hábitos y objetivos.
+
+Notificaciones flash para confirmar acciones exitosas o mostrar errores.
+
+Sistema de búsqueda avanzada para mejorar productividad.
+
+❗ 7. Posibles Errores y Soluciones
+
+Problema	                                Solución
+- No puedes iniciar sesión	        Verifica contraseña o restablécela.
+- No se crea una tarea	             Revisa campos obligatorios.
+- Error 500	Espera unos             minutos o contacta al desarrollador.
+
+
+🧰 8. Soporte Técnico
+Contacto con el equipo de desarrollo o soporte designado.
